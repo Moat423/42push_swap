@@ -13,6 +13,9 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
-# include "libft/libft.h"
+# include <stdlib.h>
+# include "libft/lib_ft/libft.h"
+# include "libft/get_next_line/get_next_line.h"
+# include "libft/lib_printf/ft_printf.h"
 
 #endif // PUSH_SWAP_H

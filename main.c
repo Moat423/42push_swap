@@ -13,8 +13,6 @@
 #include "push_swap.h"
 #include "newlib.h"
 
-#include "stdio.h"
-
 char *const	*ft_split_or_1(unsigned int *listlen, char *argv[]);
 int const	*ft_array_atoi(const unsigned int listlen, char *const *charlist);
 
@@ -38,7 +36,7 @@ int	main(int argc, char *argv[])
 	unsigned int i = 0;
 	while (i < listlen)
 	{
-		printf("n%d: %s", i, charlist[i]);
+		ft_printf("n%d: %s", i, charlist[i]);
 		i++;
 	}
 	if (charlist)

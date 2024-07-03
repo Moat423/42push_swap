@@ -46,6 +46,8 @@ $(LIBFT):
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
+$(OBJS): $(SRCS)
+
 clean:
 	rm -dRf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
