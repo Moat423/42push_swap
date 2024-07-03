@@ -1,5 +1,4 @@
 checker_linux
-libft/
 *.swp
 a.out
 push_swap
