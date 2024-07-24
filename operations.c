@@ -13,4 +13,7 @@
 #include "push_swap.h"
 #include "newlib.h"
 
+int	sa(int *stack_a, int listlen)
+{
 
+}

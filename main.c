@@ -14,6 +14,7 @@
 #include "newlib.h"
 
 char *const	*ft_split_or_1(unsigned int *listlen, char *argv[]);
+int	*get_position(const unsigned int listlen, int *list_in);
 int	*ft_array_atoi(const unsigned int listlen, char *const *charlist);
 int	*ft_insertion_sort_int_list(int *list, const unsigned int listlen);
 
@@ -22,6 +23,8 @@ int	main(int argc, char *argv[])
 	char *const		*charlist;
 	int *list_a;
 	unsigned int	listlen;
+	int	*stack_a;
+	int	*stack_b;
 
 	if (argc == 1)
 		return (0);
@@ -49,7 +52,10 @@ int	main(int argc, char *argv[])
 		write(2, "Error\n", 6);
 		return (0);
 	}
+	stack_a = get_position(listlen, list_a);
 	free((void *) list_a);
+	free(stack_a);
+	free(stack_b);
 	return (1);
 }
 
