@@ -14,10 +14,10 @@
 #include "newlib.h"
 
 char *const	*ft_split_or_1(unsigned int *listlen, char *argv[]);
-void		ft_printf_int_array(const int *array, const int len);
-void		ft_printf_char_array(char *const *array, const int len);
+void		ft_printf_int_array(const int *array, const unsigned int len);
+void		ft_printf_char_array(char *const *array, const unsigned int len);
 int			*get_position(const unsigned int listlen, int *list_in);
-int			*ft_insertion_sort_int_list(const int *list, const unsigned int listlen);
+int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const unsigned int listlen, char *const *charlist);
 
 int	main(int argc, char *argv[])
@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 	int *list_a;
 	unsigned int	listlen;
 	int	*stack_a;
-	int	*stack_b;
+	//int	*stack_b;
 
 	if (argc == 1)
 		return (0);
@@ -47,7 +47,7 @@ int	main(int argc, char *argv[])
 	ft_printf_char_array(charlist, listlen);
 	if (charlist)
 		free_str_array((char **) charlist, listlen);
-	stack_a = get_position(listlen, list_a);
+	stack_a = get_position((int) listlen, list_a);
 	ft_printf("positional array:\n");
 	ft_printf_int_array(stack_a, listlen);
 	free((void *) list_a);
@@ -110,11 +110,11 @@ int	*get_position(const unsigned int listlen, int *list_in)
 		pos_list[i] = j;
 		i++;
 	}
-	free(sorted_list);
+	return (sorted_list);
 }
 
 // use insertion sort to sort list and return a new malloced list
-int	*ft_insertion_sort_int_list(const int *list, const unsigned int listlen)
+int	*ft_insertion_sort_int_list(const int *list, const int listlen)
 {
 	int	i;
 	int	j;
@@ -143,7 +143,7 @@ int	*ft_insertion_sort_int_list(const int *list, const unsigned int listlen)
 	return (sorted_list);
 }
 
-void	ft_printf_int_array(const int *array, const int len)
+void	ft_printf_int_array(const int *array, const unsigned int len)
 {
 	unsigned int	i;
 
@@ -153,7 +153,7 @@ void	ft_printf_int_array(const int *array, const int len)
 }
 
 //while loop to print out charlist to test it
-void	ft_printf_char_array(char *const *array, const int len)
+void	ft_printf_char_array(char *const *array, const unsigned int len)
 {
 	unsigned int	i;
 
