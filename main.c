@@ -14,9 +14,11 @@
 #include "newlib.h"
 
 char *const	*ft_split_or_1(unsigned int *listlen, char *argv[]);
-int	*get_position(const unsigned int listlen, int *list_in);
-int	*ft_array_atoi(const unsigned int listlen, char *const *charlist);
-int	*ft_insertion_sort_int_list(int *list, const unsigned int listlen);
+void		ft_printf_int_array(const int *array, const int len);
+void		ft_printf_char_array(char *const *array, const int len);
+int			*get_position(const unsigned int listlen, int *list_in);
+int			*ft_insertion_sort_int_list(const int *list, const unsigned int listlen);
+int			*ft_array_atoi(const unsigned int listlen, char *const *charlist);
 
 int	main(int argc, char *argv[])
 {
@@ -36,26 +38,21 @@ int	main(int argc, char *argv[])
 	}
 	else
 		list_a = ft_array_atoi(listlen, argv);
-	// //make a while loop to print out charlist to test it
-	// unsigned int i = 0;
-	// while (i < listlen)
-	// {
-	// 	ft_printf("n%d: %s", i, charlist[i]);
-	// 	i++;
-	// }
-	// if (charlist)
-	// 	free_str_array((char **) charlist, listlen);
-	// charlist = NULL;
-	// // take above testing code out
 	if (!list_a)
 	{
 		write(2, "Error\n", 6);
 		return (0);
 	}
+	ft_printf("charlist array:\n");
+	ft_printf_char_array(charlist, listlen);
+	if (charlist)
+		free_str_array((char **) charlist, listlen);
 	stack_a = get_position(listlen, list_a);
+	ft_printf("positional array:\n");
+	ft_printf_int_array(stack_a, listlen);
 	free((void *) list_a);
 	free(stack_a);
-	free(stack_b);
+	//free(stack_b);
 	return (1);
 }
 
@@ -66,7 +63,7 @@ char *const	*ft_split_or_1(unsigned int *listlen, char *argv[])
 
 	charlist = ft_split(argv[1], ' ');
 	if (!charlist)
-		return NULL;
+		return (NULL);
 	while (*charlist != NULL)
 	{
 		(*listlen)++;
@@ -86,13 +83,13 @@ int	*ft_array_atoi(const unsigned int listlen, char *const *charlist)
 	while (i++ < listlen)
 	{
 		stack_a[i] = ft_atoi(charlist[i]);
+//TODO replace atoi with strtoi for error checking, write strtoi
 	}
 	return (stack_a);
 }
 
-// sorts list_in locally and returns a list where each index is assigned its ultimate
+// returns !!malloced positional list where each index is assigned its ultimate
 // index it should have if the list was sorted
-// returns a !!malloced positional list
 int	*get_position(const unsigned int listlen, int *list_in)
 {
 	unsigned int	*pos_list;
@@ -104,7 +101,6 @@ int	*get_position(const unsigned int listlen, int *list_in)
 	pos_list = malloc (listlen * sizeof(unsigned int));
 	if (!pos_list)
 		return (NULL);
-	//where do i assign memory for sorted list, or is it ok to just take the list from the sort function scope?
 	sorted_list = ft_insertion_sort_int_list(list_in, listlen);
 	while (i < listlen)
 	{
@@ -114,27 +110,54 @@ int	*get_position(const unsigned int listlen, int *list_in)
 		pos_list[i] = j;
 		i++;
 	}
+	free(sorted_list);
 }
 
-//question, do i need to malloc the returned list here? can i just return the local list?
-int	*ft_insertion_sort_int_list(int *list, const unsigned int listlen)
+// use insertion sort to sort list and return a new malloced list
+int	*ft_insertion_sort_int_list(const int *list, const unsigned int listlen)
 {
 	int	i;
 	int	j;
 	int	key;
+	int	*sorted_list;
 
+	sorted_list = malloc(listlen * sizeof(int));
+	if (!sorted_list)
+		return (NULL);
+	j = 0;
+	while (j++ < listlen)
+		sorted_list[j] = list[j];
 	i = 1;
 	while (i < listlen)
 	{
-		key = list[i];
+		key = sorted_list[i];
 		j = i - 1;
-		while (j >= 0 && list[j] > key)
+		while (j >= 0 && sorted_list[j] > key)
 		{
-			list[j + 1] = list[j];
+			sorted_list[j + 1] = sorted_list[j];
 			j--;
 		}
-		list[i] = key;
+		sorted_list[i] = key;
 		i++;
 	}
-	return (list);
+	return (sorted_list);
+}
+
+void	ft_printf_int_array(const int *array, const int len)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i++ < len)
+		ft_printf("n%d: %i", i, array[i]);
+}
+
+//while loop to print out charlist to test it
+void	ft_printf_char_array(char *const *array, const int len)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i++ < len)
+		ft_printf("n%d: %s", i, array[i]);
 }

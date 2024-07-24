@@ -3,3 +3,5 @@ checker_linux
 a.out
 push_swap
 *.o
+*/*.a
+*/*/*.a
