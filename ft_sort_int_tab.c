@@ -1,19 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newlib.h                                           :+:      :+:    :+:   */
+/*   ft_sort_int_tab.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
+/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 15:39:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/01 16:52:19 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/02/07 16:54:42 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/02/08 18:16:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NEWLIB_H
-# define NEWLIB_H
-# include <unistd.h>
+void	ft_sort_int_tab(int *tab, int size)
+{
+	int	i;
+	int	buffer;
+	int	j;
 
-void	free_str_array(char **str_array, size_t elemnbr);
-void	ft_sort_int_tab(int *tab, int size);
-#endif // !NEWLIB_H
+	i = 1;
+	while (i < size)
+	{
+		buffer = tab[i];
+		j = i - 1;
+		while (j >= 0 && tab[j] > buffer)
+		{
+			tab[j + 1] = tab[j];
+			j--;
+		}
+		tab[j + 1] = buffer;
+		i++;
+	}
+}
