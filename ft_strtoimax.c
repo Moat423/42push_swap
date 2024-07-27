@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <errno.h>
 
 /*
 DESCRIPTION
@@ -46,20 +47,23 @@ UINTMAX_MAX is returned, and errno is set to ERANGE.
 //really cool way to get the absolute value:
 	//i += (sign ^ (sign >> 31)) - (sign >> 31);
 
-int	strtoimax(const char *nptr, char **endptr, int base);
+int	ft_strtoimax(const char *nptr, char **endptr, int base);
 int skip_whitespace(const char *str);
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int	determine_sign(const char *nptr);
 
-int	strtoimax(const char *nptr, char **endptr, int base)
+int	ft_strtoimax(const char *nptr, char **endptr, int base)
 {
 	int	i;
 	int	sign;
 	int	nb;
 
 	*endptr =  (char *) nptr;
-	if (!(base >= 0 && base <= 36))
+	if (!(base >= 0 && base <= 36) || (*nptr == '\0' || nptr == NULL))
+	{
+		errno = EINVAL;
 		return (0);
+	}
 	i = skip_whitespace(nptr);
 	sign = determine_sign(&nptr[i]);
 	if (sign)
@@ -98,7 +102,6 @@ int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 	result = 0;
 	while (*nptr)
 	{
-		**endptr = (char *) nptr;
 		if (*nptr >= 'A' && *nptr <= 'Z')
 			buffer = *nptr - 'A';
 		else if (*nptr >= 'a' && *nptr <= 'z')
@@ -108,11 +111,15 @@ int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 		if (buffer + 1 >= base)
 			break;
 		if (sign == 1 && INT_MAX - result < buffer)
+		{
+			errno = ERANGE;
 			return (INT_MAX);
+		}
 		if (sign == -1 && INT_MIN + result < -buffer)
 			return (INT_MIN);
 		result = result * base + buffer;
 		nptr++;
+		**endptr = (char *) nptr;
 	}
 	return (result * sign);
 }
@@ -131,7 +138,6 @@ int	skip_whitespace(const char *str)
 // if next char is -, returns -1, + returns 1, 
 int	determine_sign(const char *nptr)
 {
-	int result;
 	if (*nptr == '+')
 		return (1);
 	if (*nptr == '-')

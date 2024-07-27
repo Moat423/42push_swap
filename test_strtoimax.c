@@ -16,14 +16,33 @@
 #include <errno.h>
 #include <limits.h>
 
+int	ft_strtoimax(const char *nptr, char **endptr, int base);
+
 int main() {
     char *str;
     char *endptr;
+	intmax_t	val;
     errno = 0;
 
+    // Test 0: compare test
+    str = "123   ";
+    val = strtoimax(str, &endptr, 10);
+    if (val != 123 || *endptr != '\0' || errno != 0) {
+		printf("not correct\n");
+	}
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	perror("current perror");
+	printf("errno: %d\n", errno);
+	printf("Test 0 success\n\n");
     // Test 1: Valid integer
     str = "123";
-    intmax_t val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
+    printf("Test 1 \n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
     if (val != 123 || *endptr != '\0' || errno != 0) {
         printf("Test 1 failed\n");
         return 1;
@@ -31,7 +50,12 @@ int main() {
 
     // Test 2: Leading whitespace
     str = "   123";
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
+    printf("Test 2 \n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
     if (val != 123 || *endptr != '\0' || errno != 0) {
         printf("Test 2 failed\n");
         return 1;
@@ -39,7 +63,12 @@ int main() {
 
     // Test 3: Trailing whitespace
     str = "123   ";
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
+    printf("Test \n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	perror("current perror");
+	printf("errno: %d\n", errno);
     if (val != 123 || *(endptr - 1) != ' ' || errno != 0) {
         printf("Test 3 failed\n");
         return 1;
@@ -48,7 +77,7 @@ int main() {
     // Test 4: Overflow
     str = "9223372036854775808"; // INTMAX_MAX + 1
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MAX || errno != ERANGE) {
         printf("Test 4 failed\n");
         return 1;
@@ -57,7 +86,7 @@ int main() {
     // Test 5: Underflow
     str = "-9223372036854775809"; // INTMAX_MIN - 1
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MIN || errno != ERANGE) {
         printf("Test 5 failed\n");
         return 1;
@@ -65,7 +94,7 @@ int main() {
 
     // Test 6: Invalid input
     str = "123abc";
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != 123 || *endptr != 'a' || errno != 0) {
         printf("Test 6 failed\n");
         return 1;
@@ -73,7 +102,7 @@ int main() {
 
     // Test 7: Empty string
     str = "";
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != 0 || *endptr != '\0' || errno != EINVAL) {
         printf("Test 7 failed\n");
         return 1;
@@ -81,7 +110,7 @@ int main() {
 
     // Test 8: NULL pointer
     str = NULL;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != 0 || errno != EINVAL) {
         printf("Test 8 failed\n");
         return 1;
@@ -90,7 +119,7 @@ int main() {
     // Test 9: INT_MAX
     str = "2147483648"; // INTMAX_MAX
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MAX || errno != ERANGE) {
         printf("Test 9 failed\n");
         return 1;
@@ -99,7 +128,7 @@ int main() {
     // Test 10: INT_MAX Overflow
     str = "2147483649"; // INTMAX_MAX + 1
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MAX || errno != ERANGE) {
         printf("Test 10 failed\n");
         return 1;
@@ -107,7 +136,7 @@ int main() {
     // Test 11: INT_MIN
     str = "-2147483647"; // INTMAX_MIN
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MIN || errno != ERANGE) {
         printf("Test 11 failed\n");
         return 1;
@@ -116,7 +145,7 @@ int main() {
     // Test 11: INT_MIN Underflow
     str = "-2147483648"; // INTMAX_MIN - 1
     errno = 0;
-    val = strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 10);
     if (val != INTMAX_MIN || errno != ERANGE) {
         printf("Test 5 failed\n");
         return 1;
