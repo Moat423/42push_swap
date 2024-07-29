@@ -49,7 +49,7 @@ UINTMAX_MAX is returned, and errno is set to ERANGE.
 	//i += (sign ^ (sign >> 31)) - (sign >> 31);
 
 int	ft_strtoimax(const char *nptr, char **endptr, int base);
-int skip_whitespace(const char *str);
+int	skip_whitespace(const char *str);
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int	determine_sign(const char *nptr);
 
