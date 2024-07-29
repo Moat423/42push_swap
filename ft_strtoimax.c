@@ -75,46 +75,44 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base)
 	nb = 0;
 	if (base == 0)
 	{
-		if (nptr[i] == 0 && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
-		{
-			i += 2;
-			nb = ft_atoi_base_e(&nptr[i], &endptr, 16, sign);
-		}
-		else if (nptr[i] == 0)
+		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
+			nb = ft_atoi_base_e(&nptr[i + 2], &endptr, 16, sign);
+		else if (nptr[i] == '0')
 			nb = ft_atoi_base_e(&nptr[i++], &endptr, 8, sign);
 		else
 			nb = ft_atoi_base_e(&nptr[i], &endptr, 10, sign);
 	}
 	else if (base == 16)
 	{
-		if (nptr[i] == 0 && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
+		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
 			i += 2;
+		nb = ft_atoi_base_e(&nptr[i], &endptr, 16, sign);
 	}
 	else if (base >= 2 && base <= 32)
 		nb = ft_atoi_base_e(&nptr[i], &endptr, base, sign);
 	return (nb);
 }
 
-// returns int from nptr assuming its written in base (on error endptr=wrong char)
-int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
-{
-	long	result;
-	int		buffer;
-	int		i;
-	
-	result = 0;
-	i = 0;
-	while (*(nptr + i))
+	// returns int from nptr assuming its written in base (on error endptr=wrong char)
+	int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 	{
-		if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
-			buffer = *(nptr + i) - 55;
-		else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
-			buffer = *(nptr + i) - 87;
-		else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
-			buffer = *(nptr + i) - '0';
-		else
-			break;
-		if (buffer + 1 > base)
+		long	result;
+		int		buffer;
+		int		i;
+		
+		result = 0;
+		i = 0;
+		while (*(nptr + i))
+		{
+			if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
+				buffer = *(nptr + i) - 55;
+			else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
+				buffer = *(nptr + i) - 87;
+			else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
+				buffer = *(nptr + i) - '0';
+			else
+				break;
+			if (buffer + 1 > base)
 			break;
 		if (i == 9 && sign == 1 && (result * base) > INT_MAX - buffer)
 		{

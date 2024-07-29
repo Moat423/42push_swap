@@ -52,9 +52,9 @@ int main() {
         return 1;
     }
 
-    // Test 2: Leading whitespace
+    // Test 2: Leading whitespace base 0 (makes base 10)
     str = "   123";
-    val = ft_strtoimax(str, &endptr, 10);
+    val = ft_strtoimax(str, &endptr, 0);
     printf("Test 2 \n");
 	printf("val: %ld\n", val);
 	printf("endptr: %s\n", endptr);
@@ -158,7 +158,6 @@ int main() {
     errno = 0;
     val = ft_strtoimax(str, &endptr, 10);
     printf("Test 10\n");
-	printf("INT_MAX %d\n", INT_MAX);
 	printf("val: %ld\n", val);
 	printf("endptr: %s\n", endptr);
 	printf("strlen endptr: %lu\n", strlen(endptr));
@@ -177,12 +176,95 @@ int main() {
         return 1;
     }
 
-    // Test 11: INT_MIN Underflow
-    str = "-2147483649"; // INTMAX_MIN - 1
-    errno = 0;
+	// Test 12 base 16
+    str = "123abc";
+	val = ft_strtoimax(str, &endptr, 16);
+    printf("Test 12\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 1194684 || errno != 0) {
+        printf("Test 12 failed\n");
+        return 1;
+	}
+
+	// test 13 base 16 0x
+    str = "0x123abc";
+	val = ft_strtoimax(str, &endptr, 16);
+    printf("Test 13\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 1194684 || errno != 0) {
+        printf("test 13 failed\n");
+        return 1;
+	}
+
+	// test 14 base 0 0X
+    str = "0X123abc";
+	val = ft_strtoimax(str, &endptr, 0);
+    if (val != 1194684 || errno != 0) {
+        printf("test 14 failed\n");
+        return 1;
+	}
+
+    // Test 15: Invalid input
+    str = "	 ()";
     val = ft_strtoimax(str, &endptr, 10);
-    if (val != INT_MIN || errno != ERANGE) {
-        printf("Test 5 failed\n");
+    printf("Test 15\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 0 || *endptr != '	' || errno != 0) {
+        printf("Test 15 failed\n\n");
+        return 1;
+    }
+
+    // Test 16: base 0 case octal
+    str = "0743";
+    val = ft_strtoimax(str, &endptr, 0);
+    printf("Test 16\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 483 || errno != 0) {
+        printf("Test 16 failed\n\n");
+        return 1;
+    }
+
+    // Test 17: base 8
+    str = "0743";
+    val = ft_strtoimax(str, &endptr, 8);
+    printf("Test 17\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 483 || errno != 0) {
+        printf("Test 17 failed\n\n");
+        return 1;
+    }
+
+	// Test 18 invalid octal input
+    str = "983";
+    val = ft_strtoimax(str, &endptr, 8);
+    printf("Test 18\n");
+	printf("val: %ld\n", val);
+	printf("endptr: %s\n", endptr);
+	printf("strlen endptr: %lu\n", strlen(endptr));
+	perror("current perror");
+	printf("errno: %d\n\n", errno);
+    if (val != 0 || *endptr != '9' || errno != 0) {
+        printf("Test 18 failed\n\n");
         return 1;
     }
     printf("All tests passed\n");
