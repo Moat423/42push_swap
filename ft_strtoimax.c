@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
 #include <errno.h>
 
 /*
@@ -58,8 +59,9 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base)
 	int	sign;
 	int	nb;
 
+	errno = 0;
 	*endptr =  (char *) nptr;
-	if (!(base >= 0 && base <= 36) || (*nptr == '\0' || nptr == NULL))
+	if (!(base >= 0 && base <= 36) || ( nptr == NULL || *nptr == '\0'))
 	{
 		errno = EINVAL;
 		return (0);
@@ -96,32 +98,39 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base)
 // returns int from nptr assuming its written in base (on error endptr=wrong char)
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 {
-	int	result;
-	int	buffer;
+	long	result;
+	int		buffer;
+	int		i;
 	
 	result = 0;
-	while (*nptr)
+	i = 0;
+	while (*(nptr + i))
 	{
-		if (*nptr >= 'A' && *nptr <= 'Z')
-			buffer = *nptr - 'A';
-		else if (*nptr >= 'a' && *nptr <= 'z')
-			buffer = *nptr - 'a';
-		else if (*nptr >= '0' && *nptr <= '9')
-			buffer = *nptr - '0';
-		if (buffer + 1 >= base)
+		if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
+			buffer = *(nptr + i) - 55;
+		else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
+			buffer = *(nptr + i) - 87;
+		else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
+			buffer = *(nptr + i) - '0';
+		else
 			break;
-		if (sign == 1 && INT_MAX - result < buffer)
+		if (buffer + 1 > base)
+			break;
+		if (i == 9 && sign == 1 && (result * base) > INT_MAX - buffer)
 		{
 			errno = ERANGE;
 			return (INT_MAX);
 		}
-		if (sign == -1 && INT_MIN + result < -buffer)
+		if (i == 9 && sign == -1 && (-result * 10) < INT_MIN + buffer)
+		{
+			errno = ERANGE;
 			return (INT_MIN);
+		}
 		result = result * base + buffer;
-		nptr++;
-		**endptr = (char *) nptr;
+		i++;
+		**endptr = (char *) (nptr + i);
 	}
-	return (result * sign);
+	return ((int) (result * sign));
 }
 
 // returns the amount of spaces that need to be skipped (according to isspace)
