@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
+#include <errno.h>
 
 /*
 DESCRIPTION
@@ -46,20 +48,24 @@ UINTMAX_MAX is returned, and errno is set to ERANGE.
 //really cool way to get the absolute value:
 	//i += (sign ^ (sign >> 31)) - (sign >> 31);
 
-int	strtoimax(const char *nptr, char **endptr, int base);
-int skip_whitespace(const char *str);
+int	ft_strtoimax(const char *nptr, char **endptr, int base);
+int	skip_whitespace(const char *str);
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int	determine_sign(const char *nptr);
 
-int	strtoimax(const char *nptr, char **endptr, int base)
+int	ft_strtoimax(const char *nptr, char **endptr, int base)
 {
 	int	i;
 	int	sign;
 	int	nb;
 
+	errno = 0;
 	*endptr =  (char *) nptr;
-	if (!(base >= 0 && base <= 36))
+	if (!(base >= 0 && base <= 36) || ( nptr == NULL || *nptr == '\0'))
+	{
+		errno = EINVAL;
 		return (0);
+	}
 	i = skip_whitespace(nptr);
 	sign = determine_sign(&nptr[i]);
 	if (sign)
@@ -69,52 +75,60 @@ int	strtoimax(const char *nptr, char **endptr, int base)
 	nb = 0;
 	if (base == 0)
 	{
-		if (nptr[i] == 0 && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
-		{
-			i += 2;
-			nb = ft_atoi_base_e(&nptr[i], &endptr, 16, sign);
-		}
-		else if (nptr[i] == 0)
+		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
+			nb = ft_atoi_base_e(&nptr[i + 2], &endptr, 16, sign);
+		else if (nptr[i] == '0')
 			nb = ft_atoi_base_e(&nptr[i++], &endptr, 8, sign);
 		else
 			nb = ft_atoi_base_e(&nptr[i], &endptr, 10, sign);
 	}
 	else if (base == 16)
 	{
-		if (nptr[i] == 0 && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
+		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
 			i += 2;
+		nb = ft_atoi_base_e(&nptr[i], &endptr, 16, sign);
 	}
 	else if (base >= 2 && base <= 32)
 		nb = ft_atoi_base_e(&nptr[i], &endptr, base, sign);
 	return (nb);
 }
 
-// returns int from nptr assuming its written in base (on error endptr=wrong char)
-int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
-{
-	int	result;
-	int	buffer;
-	
-	result = 0;
-	while (*nptr)
+	// returns int from nptr assuming its written in base (on error endptr=wrong char)
+	int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 	{
-		**endptr = (char *) nptr;
-		if (*nptr >= 'A' && *nptr <= 'Z')
-			buffer = *nptr - 'A';
-		else if (*nptr >= 'a' && *nptr <= 'z')
-			buffer = *nptr - 'a';
-		else if (*nptr >= '0' && *nptr <= '9')
-			buffer = *nptr - '0';
-		if (buffer + 1 >= base)
+		long	result;
+		int		buffer;
+		int		i;
+		
+		result = 0;
+		i = 0;
+		while (*(nptr + i))
+		{
+			if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
+				buffer = *(nptr + i) - 55;
+			else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
+				buffer = *(nptr + i) - 87;
+			else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
+				buffer = *(nptr + i) - '0';
+			else
+				break;
+			if (buffer + 1 > base)
 			break;
-		if (sign == 1 && INT_MAX - result < buffer)
+		if (i == 9 && sign == 1 && (result * base) > INT_MAX - buffer)
+		{
+			errno = ERANGE;
 			return (INT_MAX);
-		if (sign == -1 && INT_MIN + result < -buffer)
+		}
+		if (i == 9 && sign == -1 && (-result * 10) < INT_MIN + buffer)
+		{
+			errno = ERANGE;
 			return (INT_MIN);
+		}
 		result = result * base + buffer;
-		nptr++;
+		i++;
+		**endptr = (char *) (nptr + i);
 	}
-	return (result * sign);
+	return ((int) (result * sign));
 }
 
 // returns the amount of spaces that need to be skipped (according to isspace)
@@ -131,7 +145,6 @@ int	skip_whitespace(const char *str)
 // if next char is -, returns -1, + returns 1, 
 int	determine_sign(const char *nptr)
 {
-	int result;
 	if (*nptr == '+')
 		return (1);
 	if (*nptr == '-')

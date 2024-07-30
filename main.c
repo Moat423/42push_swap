@@ -21,8 +21,7 @@ int			*get_position(const int listlen, int *list_in);
 int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
 
-//TODO: write strtoimax, rename file, include
-//check if the unsigned int was neccessary somewhere
+//TODO check if the unsigned int was neccessary somewhere
 //try funciton again
 
 int	main(int argc, char *argv[])
@@ -80,8 +79,9 @@ char *const	*ft_split_or_1(int *listlen, char *argv[])
 //creates a const int pointer to ints(a list), atois each *char element in list
 int	*ft_array_atoi(const int listlen, char *const *charlist)
 {
-	int				*stack_a;
-	int	i;
+	int		*stack_a;
+	int		i;
+	char	*errorptr;
 
 	stack_a = malloc(listlen * sizeof(int));
 	if (!stack_a)
@@ -89,8 +89,7 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 	i = 0;
 	while (i++ < listlen)
 	{
-		stack_a[i] = ft_atoi(charlist[i]);
-//TODO replace atoi with strtoi for error checking, write strtoi
+		stack_a[i] = ft_strtoimax(charlist[i], &errorptr, 10);
 	}
 	return (stack_a);
 }
@@ -199,4 +198,5 @@ int	ft_find_dup(int *list, int listlen)
 		}
 		i++;
 	}
+	return (0);
 }
