@@ -41,16 +41,20 @@ int	main(int argc, char *argv[])
 		list_a = ft_array_atoi(listlen, charlist);
 	}
 	else
-		list_a = ft_array_atoi(listlen, argv);
+		list_a = ft_array_atoi(listlen, &argv[1]);
 	if (!list_a || ft_find_dup(list_a, listlen))
 	{
 		write(2, "Error\n", 6);
 		return (0);
 	}
-	ft_printf("charlist array:\n");
-	ft_printf_char_array(charlist, listlen);
-	if (charlist)
+	if (argc == 2)
+	{
+		ft_printf("charlist array:\n");
+		ft_printf_char_array(charlist, listlen);
 		free_str_array((char **) charlist, listlen);
+	}
+	ft_printf("int list_a:\n");
+	ft_printf_int_array(list_a, listlen);
 	stack_a = get_position((int) listlen, list_a);
 	ft_printf("positional array:\n");
 	ft_printf_int_array(stack_a, listlen);
@@ -87,9 +91,10 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 	if (!stack_a)
 		return (NULL);
 	i = 0;
-	while (i++ < listlen)
+	while (i < listlen)
 	{
 		stack_a[i] = ft_strtoimax(charlist[i], &errorptr, 10);
+		i++;
 	}
 	return (stack_a);
 }
@@ -128,31 +133,32 @@ int	*ft_insertion_sort_int_list(const int *list, const int listlen)
 {
 	int	i;
 	int	j;
-	int	key;
+	// int	key;
 	int	*sorted_list;
 
 	sorted_list = malloc(listlen * sizeof(int));
 	if (!sorted_list)
 		return (NULL);
-	j = 0;
-	while (j++ < listlen)
-		sorted_list[j] = list[j];
-	// ft_sort_int_tab(sorted_list, listlen);
 	i = 1;
-	while (i < listlen)
+	j = 0;
+	while (j < listlen)
 	{
-		key = sorted_list[i];
-		j = i - 1;
-		while (j >= 0 && sorted_list[j] > key)
-		{
-			sorted_list[j + 1] = sorted_list[j];
-			j--;
-		}
-		sorted_list[j + 1] = key;
-		i++;
+		sorted_list[j] = list[j];
+		j++;
 	}
-	ft_printf("printf inside insertion sort:\n");
-	ft_printf_int_array(sorted_list, listlen);
+	ft_sort_int_tab(sorted_list, listlen);
+	// while (i < listlen)
+	// {
+	// 	key = sorted_list[i];
+	// 	j = i - 1;
+	// 	while (j >= 0 && sorted_list[j] > key)
+	// 	{
+	// 		sorted_list[j + 1] = sorted_list[j];
+	// 		j--;
+	// 	}
+	// 	sorted_list[j + 1] = key;
+	// 	i++;
+	// }
 	return (sorted_list);
 }
 
