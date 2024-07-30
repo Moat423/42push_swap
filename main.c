@@ -59,6 +59,12 @@ int	main(int argc, char *argv[])
 	ft_printf("positional array:\n");
 	ft_printf_int_array(stack_a, listlen);
 	free((void *) list_a);
+	sa(stack_a);
+	ft_printf("parray after sa:\n");
+	ft_printf_int_array(stack_a, listlen);
+	ra(stack_a, listlen);
+	ft_printf("parray after pa:\n");
+	ft_printf_int_array(stack_a, listlen);
 	free(stack_a);
 	//free(stack_b);
 	return (1);

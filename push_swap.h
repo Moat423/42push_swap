@@ -18,4 +18,6 @@
 # include "libft/get_next_line/get_next_line.h"
 # include "libft/lib_printf/ft_printf.h"
 
+void	sa(int	*list);
+void	ra(int *list, int listlen);
 #endif // PUSH_SWAP_H

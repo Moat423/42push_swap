@@ -12,8 +12,26 @@
 
 #include "push_swap.h"
 #include "newlib.h"
+//not correct, needs to rotate down!!!!!!!1
+void	ra(int *list, int listlen)
+{
+	int	buffer;
 
-int	sa(int *stack_a, int listlen)
+	buffer = list[0];
+	list[0] = list[listlen - 1];
+	list[listlen - 1] = buffer;
+}
+
+void	sa(int	*list)
+{
+	int	buffer;
+
+	buffer = list[0];
+	list[0] = list[1];
+	list[1] = buffer;
+}
+
+void	rra(int *list, int listlen)
 {
 
 }
