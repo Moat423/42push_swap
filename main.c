@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/25 18:23:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:59:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,44 @@ void		ft_printf_char_array(char *const *array, const int len);
 int			*get_position(const int listlen, int *list_in);
 int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
+void		sorting_frame(int *stack_a, int elemnb);
 
 //TODO check if the unsigned int was neccessary somewhere
 //try funciton again
 
+// TODO take out printfs, shorten function
 int	main(int argc, char *argv[])
 {
 	char *const		*charlist;
 	int *list_a;
-	int	listlen;
+	int	elemnb;
 	int	*stack_a;
-	//int	*stack_b;
 
 	if (argc == 1)
 		return (0);
-	listlen = argc - 1;
+	elemnb = argc - 1;
 	if (argc == 2)
 	{
-		charlist = ft_split_or_1(&listlen, argv);
-		list_a = ft_array_atoi(listlen, charlist);
+		charlist = ft_split_or_1(&elemnb, argv);
+		list_a = ft_array_atoi(elemnb, charlist);
 	}
 	else
-		list_a = ft_array_atoi(listlen, &argv[1]);
-	if (!list_a || ft_find_dup(list_a, listlen))
-	{
-		write(2, "Error\n", 6);
-		return (0);
-	}
+		list_a = ft_array_atoi(elemnb, &argv[1]);
+	if (!list_a || ft_find_dup(list_a, elemnb))
+		return (write(2, "Error\n", 6));
 	if (argc == 2)
 	{
 		ft_printf("charlist array:\n");
-		ft_printf_char_array(charlist, listlen);
-		free_str_array((char **) charlist, listlen);
+		ft_printf_char_array(charlist, elemnb);
+		free_str_array((char **) charlist, elemnb);
 	}
 	ft_printf("int list_a:\n");
-	ft_printf_int_array(list_a, listlen);
-	stack_a = get_position((int) listlen, list_a);
+	ft_printf_int_array(list_a, elemnb);
+	stack_a = get_position((int) elemnb, list_a);
 	ft_printf("positional array:\n");
-	ft_printf_int_array(stack_a, listlen);
+	ft_printf_int_array(stack_a, elemnb);
 	free((void *) list_a);
-	sa(stack_a);
-	ft_printf("parray after sa:\n");
-	ft_printf_int_array(stack_a, listlen);
-	ra(stack_a, listlen);
-	ft_printf("parray after pa:\n");
-	ft_printf_int_array(stack_a, listlen);
+	sorting_frame(stack_a, elemnb);
 	free(stack_a);
 	//free(stack_b);
 	return (1);
