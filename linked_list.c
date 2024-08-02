@@ -44,6 +44,7 @@ t_trie	*delpath(t_trie *last)
 		current = last->prev;
 		free(last);
 		last = current;
+		last->child = NULL;
 	}
 	return (last);
 }
