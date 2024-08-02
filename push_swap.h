@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/31 17:22:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:34:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ typedef struct s_trie
 	char			op[3];
 } t_trie;
 
+typedef struct s_stack
+{
+	int	len;
+	int	*list;
+} t_stack;
 
 # ifndef SA
 #  define SA swap(stack_a, listlen_a)
@@ -76,4 +81,15 @@ int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
 void		sorting_frame(int *list_a, int elemnb);
 
+void	trie_insertnext(t_trie *cur, t_trie *new_node);
+void	trie_addnext(t_trie **trie, t_trie *new_node);
+void	trie_insertchild(t_trie *cur, t_trie *new_node);
+void	trie_addchild(t_trie **trie, t_trie *new_node);
+t_trie	*trie_new(char *op);
+
+t_trie	*getlastchild(t_trie *trie);
+t_trie	*getnextfromback(t_trie *trie);
+t_trie	*delpath(t_trie *last);
+t_trie *getnextend(t_trie *trie);
+void	printops_path(t_trie *cur);
 #endif // PUSH_SWAP_H
