@@ -20,4 +20,5 @@ int		ft_strtoimax(const char *nptr, char **endptr, int base);
 int		skip_whitespace(const char *str);
 int		ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int		determine_sign(const char *nptr);
+char	*ft_newstrjoin(char *str1, char *str2);
 #endif // !NEWLIB_H

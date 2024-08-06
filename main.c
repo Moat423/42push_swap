@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/lib_printf/ft_printf.h"
 #include "push_swap.h"
 #include "newlib.h"
 
@@ -20,8 +21,8 @@ void		ft_printf_char_array(char *const *array, const int len);
 int			*get_position(const int listlen, int *list_in);
 int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
-void		sorting_frame(int *stack_a, int elemnb);
 
+void	testing_operations(t_stack *stack_a);
 //TODO check if the unsigned int was neccessary somewhere
 //try funciton again
 
@@ -30,36 +31,37 @@ int	main(int argc, char *argv[])
 {
 	char *const		*charlist;
 	int *list_a;
-	int	elemnb;
-	int	*stack_a;
+	t_stack	stack_a;
 
 	if (argc == 1)
 		return (0);
-	elemnb = argc - 1;
+	stack_a.len = argc - 1;
 	if (argc == 2)
 	{
-		charlist = ft_split_or_1(&elemnb, argv);
-		list_a = ft_array_atoi(elemnb, charlist);
+		charlist = ft_split_or_1(&stack_a.len, argv);
+		list_a = ft_array_atoi(stack_a.len, charlist);
 	}
 	else
-		list_a = ft_array_atoi(elemnb, &argv[1]);
-	if (!list_a || ft_find_dup(list_a, elemnb))
+		list_a = ft_array_atoi(stack_a.len, &argv[1]);
+	if (!list_a || ft_find_dup(list_a, stack_a.len))
 		return (write(2, "Error\n", 6));
 	if (argc == 2)
 	{
 		ft_printf("charlist array:\n");
-		ft_printf_char_array(charlist, elemnb);
-		free_str_array((char **) charlist, elemnb);
+		ft_printf_char_array(charlist, stack_a.len);
+		free_str_array((char **) charlist, stack_a.len);
 	}
 	ft_printf("int list_a:\n");
-	ft_printf_int_array(list_a, elemnb);
-	stack_a = get_position((int) elemnb, list_a);
+	ft_printf_int_array(list_a, stack_a.len);
+	stack_a.list = get_position((int) stack_a.len, list_a);
 	ft_printf("positional array:\n");
-	ft_printf_int_array(stack_a, elemnb);
+	ft_printf_int_array(stack_a.list, stack_a.len);
+	//testing_operations(&stack_a);
 	free((void *) list_a);
-	sorting_frame(stack_a, elemnb);
-	free(stack_a);
-	//free(stack_b);
+	sorting_frame(&stack_a);
+	ft_printf("array after sort:\n");
+	ft_printf_int_array(stack_a.list, stack_a.len);
+	free(stack_a.list);
 	return (1);
 }
 
@@ -184,6 +186,21 @@ void	ft_printf_char_array(char *const *array, const int len)
 		ft_printf("n%d: %s\n", i, array[i]);
 		i++;
 	}
+}
+
+void	testing_operations(t_stack *stack_a)
+{
+	ft_printf("before\n");
+	ft_printf_int_array(stack_a->list, stack_a->len);
+	ft_printf("swap\n");
+	swap(stack_a);
+	ft_printf_int_array(stack_a->list, stack_a->len);
+	ft_printf("rotate\n");
+	rotate(stack_a);
+	ft_printf_int_array(stack_a->list, stack_a->len);
+	ft_printf("reverse_rotate\n");
+	reverse_rotate(stack_a);
+	ft_printf_int_array(stack_a->list, stack_a->len);
 }
 
 int	ft_find_dup(int *list, int listlen)

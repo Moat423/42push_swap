@@ -65,12 +65,13 @@ typedef struct s_stack
 #  define PB push_to_b(stack_b, stack_a, listlen_b, listlen_a)
 # endif //PB
 
-void		rotate(int *list, int listlen);
-void		swap(int	*list, int listlen);
-void		reverse_rotate(int *list, int listlen);
-void		push_to_2(int *list_1, int *list_2, int listlen_1, int listlen_2);
-void		rr(int *list_a, int *list_b, int listlen_a, int listlen_b);
-void		rrr(int *list_a, int *list_b, int listlen_a, int listlen_b);
+void	swap(t_stack *stack);
+void	rotate(t_stack *stack);
+void	reverse_rotate(t_stack *stack);
+void	push_to_2(t_stack *stack_1, t_stack *stack_2);
+void	ss(t_stack *stack_a, t_stack *stack_b);
+void	rr(t_stack *stack_a, t_stack *stack_b);
+void	rrr(t_stack *stack_a, t_stack *stack_b);
 
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
@@ -79,7 +80,8 @@ void		ft_printf_char_array(char *const *array, const int len);
 int			*get_position(const int listlen, int *list_in);
 int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
-void		sorting_frame(int *list_a, int elemnb);
+int	sorting_frame(t_stack *stack_a);
+void	sort_3_a(t_trie **begin, t_stack *stack);
 
 void	trie_insertnext(t_trie *cur, t_trie *new_node);
 void	trie_addnext(t_trie **trie, t_trie *new_node);
