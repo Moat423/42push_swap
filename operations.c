@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operations->c                                       :+:      :+:    :+:   */
+/*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student->42berlin->       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:07:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/31 12:28:40 by lmeubrin         ###   ########->fr       */
+/*   Updated: 2024/08/07 13:10:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	push_to_2(t_stack *stack_1, t_stack *stack_2)
 	if (stack_1->len == 0)
 		return ;
 	i = 0;
+	stack_2->len++;
 	while (i <= stack_2->len)
 	{
 		stack_2->list[i] = stack_2->list[i + 1];
@@ -78,10 +79,12 @@ void	push_to_2(t_stack *stack_1, t_stack *stack_2)
 	}
 	stack_2->list[0] = stack_1->list[0];
 	i = 0;
-	while (i + 1 <= stack_1->len)
+	while (i + 1 < stack_1->len)
 	{
 		stack_1->list[i] = stack_1->list[i + 1];
 		i++;
 	}
+	stack_1->list[i] = 0;
+	stack_1->len--;
 	return ;
 }

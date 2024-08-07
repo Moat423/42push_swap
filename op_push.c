@@ -6,57 +6,57 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:58:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/02 16:33:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:55:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 //does swap on stack_a and adds sa into operation tree
-void	sa(t_trie **node, int *stack, int len)
+void	sa(t_dlist **node, t_stack *stack)
 {
-	swap(stack, len);
-	trie_addnext(node, trie_new("sa"));
+	swap(stack);
+	ft_dlstadd_back(node, ft_dlstnew("sa"));
 }
 
-void	sb(t_trie **node, int *stack, int len)
+void	sb(t_dlist **node, t_stack *stack)
 {
-	swap(stack, len);
-	trie_addnext(node, trie_new("sb"));
+	swap(stack);
+	ft_dlstadd_back(node, ft_dlstnew("sb"));
 }
 
-void	ra(t_trie **node, int *stack, int len)
+void	ra(t_dlist **node, t_stack *stack)
 {
-	rotate(stack, len);
-	trie_addnext(node, trie_new("ra"));
+	rotate(stack);
+	ft_dlstadd_back(node, ft_dlstnew("ra"));
 }
 
-void	rb(t_trie **node, int *stack, int len)
+void	rb(t_dlist **node, t_stack *stack)
 {
-	rotate(stack, len);
-	trie_addnext(node, trie_new("rb"));
+	rotate(stack);
+	ft_dlstadd_back(node, ft_dlstnew("rb"));
 }
 
-void	rra(t_trie **node, int *stack, int len)
+void	rra(t_dlist **node, t_stack *stack)
 {
-	reverse_rotate(stack, len);
-	trie_addnext(node, trie_new("rra"));
+	reverse_rotate(stack);
+	ft_dlstadd_back(node, ft_dlstnew("rra"));
 }
 
-void	rrb(t_trie **node, int *stack, int len)
+void	rrb(t_dlist **node, t_stack *stack)
 {
-	reverse_rotate(stack, len);
-	trie_addnext(node, trie_new("rrb"));
+	reverse_rotate(stack);
+	ft_dlstadd_back(node, ft_dlstnew("rrb"));
 }
 
-void	pa(t_trie **node, int *stack_a, int len_a, int *stack_b, int len_b)
+void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
 {
-	push_to_2(stack_a, stack_b, len_a, len_b);
-	trie_addnext(node, trie_new("pa"));
+	push_to_2(stack_a, stack_b);
+	ft_dlstadd_back(node, ft_dlstnew("pa"));
 }
 
-void	pb(t_trie **node, int *stack_a, int len_a, int *stack_b, int len_b)
+void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b)
 {
-	push_to_2(stack_b, stack_a, len_b, len_a);
-	trie_addnext(node, trie_new("pb"));
+	push_to_2(stack_b, stack_a);
+	ft_dlstadd_back(node, ft_dlstnew("pb"));
 }

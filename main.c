@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/31 12:59:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:11:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	main(int argc, char *argv[])
 	}
 	ft_printf("int list_a:\n");
 	ft_printf_int_array(list_a, stack_a.len);
+	if (stack_a.len <= 1)
+		return (1);
 	stack_a.list = get_position((int) stack_a.len, list_a);
 	ft_printf("positional array:\n");
 	ft_printf_int_array(stack_a.list, stack_a.len);
@@ -148,59 +150,7 @@ int	*ft_insertion_sort_int_list(const int *list, const int listlen)
 		j++;
 	}
 	ft_sort_int_tab(sorted_list, listlen);
-	// while (i < listlen)
-	// {
-	// 	key = sorted_list[i];
-	// 	j = i - 1;
-	// 	while (j >= 0 && sorted_list[j] > key)
-	// 	{
-	// 		sorted_list[j + 1] = sorted_list[j];
-	// 		j--;
-	// 	}
-	// 	sorted_list[j + 1] = key;
-	// 	i++;
-	// }
 	return (sorted_list);
-}
-
-void	ft_printf_int_array(const int *array, const int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		ft_printf("n%d: %i\n", i, array[i]);
-		i++;
-	}
-}
-
-//while loop to print out charlist to test it
-void	ft_printf_char_array(char *const *array, const int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		ft_printf("n%d: %s\n", i, array[i]);
-		i++;
-	}
-}
-
-void	testing_operations(t_stack *stack_a)
-{
-	ft_printf("before\n");
-	ft_printf_int_array(stack_a->list, stack_a->len);
-	ft_printf("swap\n");
-	swap(stack_a);
-	ft_printf_int_array(stack_a->list, stack_a->len);
-	ft_printf("rotate\n");
-	rotate(stack_a);
-	ft_printf_int_array(stack_a->list, stack_a->len);
-	ft_printf("reverse_rotate\n");
-	reverse_rotate(stack_a);
-	ft_printf_int_array(stack_a->list, stack_a->len);
 }
 
 int	ft_find_dup(int *list, int listlen)
