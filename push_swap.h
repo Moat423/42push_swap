@@ -59,7 +59,9 @@ typedef struct s_dlist
 	struct s_dlist	*prev;
 } t_dlist;
 
+//helpers
 void	ft_print_moves(t_moves *moves);
+int	min(int a, int b);
 
 void	swap(t_stack *stack);
 void	rotate(t_stack *stack);
@@ -93,6 +95,7 @@ void	sort_3_a(t_dlist **moves, t_stack *stack);
 void	sort_2_a(t_dlist **moves, t_stack *stack);
 int	ft_is_sorted(int *stack, int len);
 void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
+int	ft_search_lower_than(int *stack, int len, int nb);
 
 //double_linked_list
 t_dlist	*ft_dlstnew(char *content);

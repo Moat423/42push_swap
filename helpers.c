@@ -67,3 +67,10 @@ void	ft_printf_char_array(char *const *array, const int len)
 		i++;
 	}
 }
+
+int	min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}

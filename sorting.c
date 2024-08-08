@@ -78,26 +78,47 @@ void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 	while (stack_a->len > 3)
 	{
 		midpoint = elemnbr - stack_a->len / 2;
-		while (stack_a->len > midpoint && stack_a->len > 3)
+		while (stack_b->len < midpoint && stack_a->len > 3)
 		{
-			if (stack_a->list[0] <= midpoint)
+			if (stack_a->list[0] < midpoint)
 				pb(moves, stack_a, stack_b);
-			else if (stack_a->list[1] <= midpoint)
+			else if (stack_a->list[1] < midpoint)
 			{
-				sa(moves, stack_a);
+			//maybe optimize if sa is needed
+				ra(moves, stack_a);
 				pb(moves, stack_a, stack_b);
 			}
-			else if (stack_a->list[stack_a->len - 1] <= midpoint)
+			else if (stack_a->list[stack_a->len - 1] < midpoint)
 			{
-				ra(moves, stack_a);
+				rra(moves, stack_a);
 				pb(moves, stack_a, stack_b);
 			}
 			else
-				ra(moves, stack_a);
+			{
+				if (ft_search_lower_than(stack_a->list, stack_a->len, midpoint) >= 0)
+					ra(moves, stack_a);
+				else
+					rra(moves, stack_a);
+			}
 		}
 	}
 }
 
+// finds index of number <= nb, ret. pos if close to top, neg. if close to bot
+int	ft_search_lower_than(int *stack, int len, int nb)
+{
+	int	top;
+	int	bottom;
+
+	top = 0;
+	while (top < (len / 2) && stack[top] > nb)
+		top++;
+	bottom = len - 1;
+	while (bottom >= 0 && stack[bottom] > nb)
+		bottom--;
+	bottom = len - bottom - 1;
+	return (bottom - top);
+}
 
 // sort 2 elements ascending (swap if in reverse) record in moves
 void	sort_2_a(t_dlist **moves, t_stack *stack)
