@@ -24,7 +24,6 @@ int			*ft_array_atoi(const int listlen, char *const *charlist);
 
 void	testing_operations(t_stack *stack_a);
 //TODO check if the unsigned int was neccessary somewhere
-//try funciton again
 
 // TODO take out printfs, shorten function
 int	main(int argc, char *argv[])
@@ -55,7 +54,7 @@ int	main(int argc, char *argv[])
 	ft_printf_int_array(list_a, stack_a.len);
 	if (stack_a.len <= 1)
 		return (1);
-	stack_a.list = get_position((int) stack_a.len, list_a);
+	stack_a.list = get_position(stack_a.len, list_a);
 	ft_printf("positional array:\n");
 	ft_printf_int_array(stack_a.list, stack_a.len);
 	//testing_operations(&stack_a);

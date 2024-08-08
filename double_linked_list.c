@@ -79,6 +79,7 @@ void	ft_dlstadd_back(t_dlist **lst, t_dlist *new_node)
 		while ((tmp)->next)
 			(tmp) = (tmp)->next;
 		(tmp)->next = new_node;
+		new_node->prev = tmp;
 	}
 }
 

@@ -92,6 +92,7 @@ int	sorting_frame(t_stack *stack_a);
 void	sort_3_a(t_dlist **moves, t_stack *stack);
 void	sort_2_a(t_dlist **moves, t_stack *stack);
 int	ft_is_sorted(int *stack, int len);
+void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
 
 //double_linked_list
 t_dlist	*ft_dlstnew(char *content);

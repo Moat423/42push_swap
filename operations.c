@@ -70,12 +70,11 @@ void	push_to_2(t_stack *stack_1, t_stack *stack_2)
 
 	if (stack_1->len == 0)
 		return ;
-	i = 0;
-	stack_2->len++;
-	while (i <= stack_2->len)
+	i = stack_2->len++;
+	while (i > 0)
 	{
-		stack_2->list[i] = stack_2->list[i + 1];
-		i++;
+		stack_2->list[i] = stack_2->list[i - 1];
+		i--;
 	}
 	stack_2->list[0] = stack_1->list[0];
 	i = 0;
@@ -84,7 +83,6 @@ void	push_to_2(t_stack *stack_1, t_stack *stack_2)
 		stack_1->list[i] = stack_1->list[i + 1];
 		i++;
 	}
-	stack_1->list[i] = 0;
 	stack_1->len--;
 	return ;
 }

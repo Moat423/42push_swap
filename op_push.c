@@ -51,12 +51,12 @@ void	rrb(t_dlist **node, t_stack *stack)
 
 void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
 {
-	push_to_2(stack_a, stack_b);
+	push_to_2(stack_b, stack_a);
 	ft_dlstadd_back(node, ft_dlstnew("pa"));
 }
 
 void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b)
 {
-	push_to_2(stack_b, stack_a);
+	push_to_2(stack_a, stack_b);
 	ft_dlstadd_back(node, ft_dlstnew("pb"));
 }

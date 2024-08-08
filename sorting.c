@@ -18,9 +18,10 @@ int	sorting_frame(t_stack *stack_a)
 {
 	t_stack	stack_b;
 	int	elemnbr;
-	t_stack	targets;
+	//t_stack	targets;
 	t_dlist	*output;
 
+	output = NULL;
 	elemnbr = stack_a->len;
 	if (stack_a->len <= 1 || ft_is_sorted(stack_a->list, stack_a->len))
 		return (0);
@@ -29,8 +30,15 @@ int	sorting_frame(t_stack *stack_a)
 	stack_b.list = malloc(stack_a->len * sizeof(int));
 	if (!stack_b.list)
 		return (1);
-	ft_printf("print inside frame:\n");
+	ft_printf("BBBBBB\n");
+	pb(&output, stack_a, &stack_b);
+	ft_printf("stack_b.len:%d\n", stack_b.len);
+	ft_printf_int_array(stack_b.list, stack_b.len);
+	ft_midpoint(&output, stack_a, &stack_b);
+	ft_printf("print after midpoint:A\n");
 	ft_printf_int_array(stack_a->list, stack_a->len);
+	ft_printf("print after midpoint:B\n");
+	ft_printf_int_array(stack_b.list, stack_b.len);
 	if (stack_a->len == 2)
 		sa(&output, stack_a);
 	if (stack_a->len == 3)
@@ -60,12 +68,36 @@ int	ft_is_sorted(int *stack, int len)
 
 // make new list and add moves to get to position element should be in
 //int	find_moves_to_pos(t_dlist	**moves, int *stack, int len, t_stack *targets)
-/*
-void	midpoint(t_moves *moves, t_stack *stack_a, t_stack *stack_b)
+
+void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 {
 	int	midpoint;
+	int	elemnbr;
+
+	elemnbr = stack_a->len;
+	while (stack_a->len > 3)
+	{
+		midpoint = elemnbr - stack_a->len / 2;
+		while (stack_a->len > midpoint && stack_a->len > 3)
+		{
+			if (stack_a->list[0] <= midpoint)
+				pb(moves, stack_a, stack_b);
+			else if (stack_a->list[1] <= midpoint)
+			{
+				sa(moves, stack_a);
+				pb(moves, stack_a, stack_b);
+			}
+			else if (stack_a->list[stack_a->len - 1] <= midpoint)
+			{
+				ra(moves, stack_a);
+				pb(moves, stack_a, stack_b);
+			}
+			else
+				ra(moves, stack_a);
+		}
+	}
 }
-*/
+
 
 // sort 2 elements ascending (swap if in reverse) record in moves
 void	sort_2_a(t_dlist **moves, t_stack *stack)
