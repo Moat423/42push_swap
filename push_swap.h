@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/07 17:04:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:41:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,16 @@ typedef struct s_dlist
 	struct s_dlist	*prev;
 } t_dlist;
 
-//helpers
+//helpers_print.c
 void	ft_print_moves(t_moves *moves);
+void	testing_operations(t_stack *stack_a);
+void	ft_printf_int_array(const int *array, const int len);
+void	ft_printf_char_array(char *const *array, const int len);
+
+//helpers
 int	min(int a, int b);
+int	ft_max_of_lst(int *list, int len);
+int	ft_min_of_lst(int *list, int len);
 
 void	swap(t_stack *stack);
 void	rotate(t_stack *stack);
@@ -93,9 +100,18 @@ int			*ft_array_atoi(const int listlen, char *const *charlist);
 int	sorting_frame(t_stack *stack_a);
 void	sort_3_a(t_dlist **moves, t_stack *stack);
 void	sort_2_a(t_dlist **moves, t_stack *stack);
-int	ft_is_sorted(int *stack, int len);
 void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
 int	ft_search_lower_than(int *stack, int len, int nb);
+int	ft_sorted_descending(int *stack, int len);
+int	ft_sorted_ascending(int *stack, int len);
+
+//sorting_back.c
+int	ft_rot_or_revrot(int *stack, int len, int nb);
+int	ft_get_target_i(int *stack, int len, int nb, int pref_bot);
+void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets);
+int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int target_i, t_dlist **path);
+int	ft_optimal_pos(const int nb, const int prev, const int next, const int	max, const int min);
+int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path);
 
 //double_linked_list
 t_dlist	*ft_dlstnew(char *content);
