@@ -30,6 +30,7 @@ int	ft_min_of_lst(int *list, int len)
 	{
 		if (list[i] < min)
 			min = list[i];
+		i++;
 	}
 	return (min);
 }
@@ -45,6 +46,7 @@ int	ft_max_of_lst(int *list, int len)
 	{
 		if (list[i] > max)
 			max = list[i];
+		i++;
 	}
 	return (max);
 }

@@ -133,15 +133,12 @@ int	*get_position(const int listlen, int *list_in)
 // use insertion sort to sort list and return a new malloced list
 int	*ft_insertion_sort_int_list(const int *list, const int listlen)
 {
-	int	i;
 	int	j;
-	// int	key;
 	int	*sorted_list;
 
 	sorted_list = malloc(listlen * sizeof(int));
 	if (!sorted_list)
 		return (NULL);
-	i = 1;
 	j = 0;
 	while (j < listlen)
 	{

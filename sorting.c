@@ -17,11 +17,11 @@
 int	sorting_frame(t_stack *stack_a)
 {
 	t_stack	stack_b;
-	int	elemnbr;
+	// int	elemnbr;
 	t_dlist	*output;
 
 	output = NULL;
-	elemnbr = stack_a->len;
+	// elemnbr = stack_a->len;
 	if (stack_a->len <= 1 || ft_sorted_ascending(stack_a->list, stack_a->len))
 		return (0);
 	ft_printf("not sorted, doing algorithm..................\n");
@@ -29,10 +29,6 @@ int	sorting_frame(t_stack *stack_a)
 	stack_b.list = malloc(stack_a->len * sizeof(int));
 	if (!stack_b.list)
 		return (1);
-	ft_printf("BBBBBB\n");
-	pb(&output, stack_a, &stack_b);
-	ft_printf("stack_b.len:%d\n", stack_b.len);
-	ft_printf_int_array(stack_b.list, stack_b.len);
 	ft_midpoint(&output, stack_a, &stack_b);
 	ft_printf("print after midpoint:A\n");
 	ft_printf_int_array(stack_a->list, stack_a->len);
@@ -42,6 +38,10 @@ int	sorting_frame(t_stack *stack_a)
 		sa(&output, stack_a);
 	if (stack_a->len == 3)
 		sort_3_a(&output, stack_a);
+	ft_printf("print sort2 and 3 :A\n");
+	ft_printf_int_array(stack_a->list, stack_a->len);
+	ft_printf_dlst(&output);
+	sorting_back(stack_a, &stack_b, &output);
 	if (stack_b.list)
 		free(stack_b.list);
 	return (0);
@@ -73,7 +73,7 @@ void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 			}
 			else
 			{
-				if (ft_search_lower_than(stack_a->list, stack_a->len, midpoint) >= 0)
+				if (ft_rot_or_revrot(stack_a->list, stack_a->len, midpoint) >= 0)
 					ra(moves, stack_a);
 				else
 					rra(moves, stack_a);
@@ -82,6 +82,22 @@ void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 	}
 }
 
+
+// finds index of number <= nb, ret. pos if close to top, neg. if close to bot
+int	ft_rot_or_revrot(int *stack, int len, int nb)
+{
+	int	top;
+	int	bottom;
+
+	top = 0;
+	while (top < (len / 2) && stack[top] < nb )
+		top++;
+	bottom = len - 1;
+	while (bottom >= 0 && stack[bottom] < nb)
+		bottom--;
+	bottom = len - bottom - 1;
+	return (bottom - top);
+}
 // sort 2 elements ascending (swap if in reverse) record in moves
 void	sort_2_a(t_dlist **moves, t_stack *stack)
 {
@@ -124,10 +140,11 @@ int	ft_sorted_ascending(int *stack, int len)
 	int	i;
 
 	i = 0;
-	while (stack[i + 1])
+	while (i + 1 < len)
 	{
 		if (stack[i] > stack[i + 1])
 			return (0);
+		i++;
 	}
 	return (1);
 }
@@ -139,10 +156,11 @@ int	ft_sorted_descending(int *stack, int len)
 	int	i;
 
 	i = 0;
-	while (stack[i + 1])
+	while (i + 1 < len)
 	{
-		if (stack[i] < stack[i + 1])
+		if (stack[i]  + 1 == stack[i + 1])
 			return (0);
+		i++;
 	}
 	return (1);
 }

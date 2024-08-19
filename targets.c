@@ -5,21 +5,6 @@
 
 #include "push_swap.h"
 
-int	sorting_back(t_stack *stack_a, t_stack *stack_b)
-{
-	t_stack targets;
-
-	if (!targets.list)
-		return (0);
-	ft_printf("MINIMUM in a: %d\n", ft_min_of_lst(stack_a->list, stack_a->len));
-	ft_printf("index of min in a: %d\n", ft_index_of_min(stack_a->list, stack_a->len));
-	ft_find_targets(stack_a, stack_b, &targets);
-	ft_printf("TARGETS\n");
-	ft_printf_int_array(targets.list, targets.len);
-	free(targets.list);
-	return (1);
-}
-
 // create target for every index, return list of targets
 // tries to prefer that both use the same turn direction
 void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets) {

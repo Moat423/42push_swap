@@ -11,9 +11,56 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <assert.h>
 
+
+int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
+{
+	t_stack	targets;
+	t_dlist	*new_path;
+	//int	index_to_push;
+
+	new_path = NULL;
+	ft_printf("MINIMUM in a: %d\n", ft_min_of_lst(stack_a->list, stack_a->len));
+	ft_printf("index of min in a: %d\n", ft_index_of_min(stack_a->list, stack_a->len));
+	ft_find_targets(stack_a, stack_b, &targets);
+	if (!(targets.list))
+		return (0);
+	ft_printf("TARGETS\n");
+	ft_printf_int_array(targets.list, targets.len);
+	if (!(ft_push_if_sorted(stack_a, stack_b, &new_path)))
+	{
+		free(targets.list);
+		return (1);
+	}
+	//index_to_push = ft_find_optimal_push(stack_a, stack_b, &new_path);
+	ft_printf_dlst(&new_path);
+	//ft_printf("index_to_push: %d\n",index_to_push);
+	//join new_path to output
+	ft_dlstadd_back(output, new_path);
+	ft_printf("output after sorting_back:\n");
+	ft_printf_dlst(output);
+	free(targets.list);
+	return (1);
+}
+
+int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path)
+{
+	if (ft_sorted_descending(stack_b->list, stack_b->len))
+	{
+		if (ft_sorted_ascending(stack_a->list, stack_a->len))
+		{
+			while (stack_b->len > 0)
+				pa(path, stack_a, stack_b);
+			return (0);
+		}
+		return (1);
+	}
+	return (2);
+}
 //decide for element to push to A
 // -1 means error
+/*
 int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_dlist **new_path)
 {
 	t_stack	targets;
@@ -74,58 +121,79 @@ int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dl
 	return (best_index);
 }
 
-
 // returns number of moves and saves moves needed to path
-int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int target_i, t_dlist **path)
+int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int curr_index, int target_index, t_dlist **path)
 {
+	int	moves_countrarb;
+	int	moves_countrrarrb;
+	int	moves_countrarrb;
+	int	moves_countrrarb;
+	int	moves_b;
+	int	moves_a;
 	int	moves_count;
+	t_dlist	*curr_node;
 
-	moves_count = 0;
-	return (moves_count);
+	if (curr_index > (stack_b->len / 2))
+		moves_b = stack_b->len - curr_index;
+	else
+		moves_b = curr_index;
+	if (target_index > (stack_a->len / 2))
+		moves_a = stack_a->len - target_index;
+	else
+		moves_a = target_index;
+	curr_node = *path;
+	if (curr_index <= (stack_b->len / 2) && target_index <= stack_a->len / 2)
+	{
+		moves_count = curr_index - target_index;
+		while (curr_index--)
+		{
+			curr_node = ft_createaddback(&curr_node, "rb");
+			if (!curr_node)
+				return (0);
+		}
+		while (target_index--)
+		{
+			curr_node = ft_createaddback(&curr_node, "rb");
+			if (!curr_node)
+				return (0);
+		}
+	}
+	if (curr_index <= (stack_b->len / 2) && target_index <= stack_a->len / 2)
+	{
+		moves_count = curr_index + target_index + 1;
+		while (curr_index--)
+		{
+			curr_node = ft_createaddback(&curr_node, "rb");
+			if (!curr_node)
+				return (0);
+		}
+		while (target_index--)
+		{
+			curr_node = ft_createaddback(&curr_node, "rb");
+			if (!curr_node)
+				return (0);
+		}
+	}
+	assert(moves_count == ft_dlstsize(*path));
 }
+*/
 
-// create target for every index, return list of targets
-// tries to prefer that both use the same turn direction
-void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets)
-{
-	int	i;
 
-	targets->len = stack_b->len;
-	targets->list = malloc(stack_b->len * sizeof(int));
-	if (!targets->list)
-		return ;
-	i = 0;
-	while (i < stack_b->len / 2)
-		targets->list[i] = ft_get_target_i(stack_a->list, stack_a->len, stack_b->list[i], 0);
-	while (i < stack_b->len)
-		targets->list[i] = ft_get_target_i(stack_a->list, stack_a->len, stack_b->list[i], 1);
-	return ;
-}
-
-int	ft_get_target_i(int *stack, int len, int nb, int pref_bot)
+//returns a positive number or 0 if i should rotate and negative if reverse rotate
+int	ft_rot_or_revrot_of_i(int *stack, int len, int nb)
 {
 	int	top;
 	int	bottom;
 
 	top = 0;
-	while (top < (len / 2) && stack[top] < nb)
+	while (top < (len / 2) && stack[top] < nb )
 		top++;
 	bottom = len - 1;
 	while (bottom >= 0 && stack[bottom] < nb)
 		bottom--;
-	if (bottom > top + 1)
-		return (bottom);
-	else if (bottom <= top)
-		return (top);
-	else
-	{
-		if (pref_bot == 1)
-			return (bottom);
-		else
-			return (top);
-	}
+	bottom = len - bottom - 1;
+	return (bottom - top);
 }
-
 // returns 0 if number right between prev and next
 // else returns lowest distance from next or prev 
 int	ft_optimal_pos(const int nb, const int prev, const int next, const int	max, const int min)
@@ -147,22 +215,6 @@ int	ft_optimal_pos(const int nb, const int prev, const int next, const int	max, 
 		return (dist_prev);
 	else
 		return (dist_next);
-}
-
-// finds index of number <= nb, ret. pos if close to top, neg. if close to bot
-int	ft_rot_or_revrot(int *stack, int len, int nb)
-{
-	int	top;
-	int	bottom;
-
-	top = 0;
-	while (top < (len / 2) && stack[top] < nb)
-		top++;
-	bottom = len - 1;
-	while (bottom >= 0 && stack[bottom] < nb)
-		bottom--;
-	bottom = len - bottom - 1;
-	return (bottom - top);
 }
 
 //fkt to add optimal moves to list and executing optimal path

@@ -65,21 +65,17 @@ t_dlist	*ft_dlstlast(t_dlist *lst)
 
 void	ft_dlstadd_back(t_dlist **lst, t_dlist *new_node)
 {
-	t_dlist	*tmp;
+	t_dlist	*last;
 
 	if (!lst || !new_node)
 		return ;
 	if (!(*lst))
-	{
 		(*lst) = new_node;
-	}
 	else
 	{
-		tmp = *lst;
-		while ((tmp)->next)
-			(tmp) = (tmp)->next;
-		(tmp)->next = new_node;
-		new_node->prev = tmp;
+		last = ft_dlstlast(*lst);
+		last->next = new_node;
+		new_node->prev = last;
 	}
 }
 
@@ -87,26 +83,33 @@ void	ft_printf_dlst(t_dlist **lst)
 {
 	t_dlist	*cur;
 
+	if (!lst || !(*lst) )
+		return ;
 	cur = ft_dlstfirst(*lst);
-	while (cur)
+	while (cur )
 	{
-		printf("%s\n", cur->content);
+		if (cur->content)
+			printf("%s\n", cur->content);
 		cur = cur->next;
 	}
 }
 
 // gets to the first item and frees till the end;
-void	ft_dlstclear(t_dlist *lst)
+void	ft_dlstclear(t_dlist **lst)
 {
 	t_dlist	*cur;
+	t_dlist	*next;
 
-	lst = ft_dlstfirst(lst);
-	while (lst)
+	if (!lst || !(*lst))
+		return ;
+	cur = ft_dlstfirst(*lst);
+	while (cur)
 	{
-		cur = lst->next;
-		free(lst);
-		lst = cur;
+		next = cur->next;
+		free(cur);
+		cur = next;
 	}
+	*lst = NULL;
 }
 
 t_dlist	*ft_createaddback(t_dlist **lst, void *content)
