@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:59:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/09 17:15:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:40:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,29 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 {
 	t_stack	targets;
 	t_dlist	*new_path;
-	//int	index_to_push;
+	int	index_to_push;
 
 	new_path = NULL;
 	ft_printf("MINIMUM in a: %d\n", ft_min_of_lst(stack_a->list, stack_a->len));
 	ft_printf("index of min in a: %d\n", ft_index_of_min(stack_a->list, stack_a->len));
-	ft_find_targets(stack_a, stack_b, &targets);
-	if (!(targets.list))
-		return (0);
-	ft_printf("TARGETS\n");
-	ft_printf_int_array(targets.list, targets.len);
-	if (!(ft_push_if_sorted(stack_a, stack_b, &new_path)))
+	/* ft_find_targets(stack_a, stack_b, &targets); */
+	/* if (!(targets.list)) */
+	/* 	return (0); */
+	while (stack_b->len > 0)
 	{
-		free(targets.list);
-		return (1);
+		index_to_push = ft_find_optimal_push(stack_a, stack_b, &targets, &new_path);
+		ft_printf("TARGETS\n");
+		ft_printf_int_array(targets.list, targets.len);
+		if (!(ft_push_if_sorted(stack_a, stack_b, &new_path)))
+		{
+			free(targets.list);
+			return (1);
+		}
+		ft_printf_dlst(&new_path);
+		ft_printf("index_to_push: %d\n",index_to_push);
+		//join new_path to output
+		ft_dlstadd_back(output, new_path);
 	}
-	//index_to_push = ft_find_optimal_push(stack_a, stack_b, &new_path);
-	ft_printf_dlst(&new_path);
-	//ft_printf("index_to_push: %d\n",index_to_push);
-	//join new_path to output
-	ft_dlstadd_back(output, new_path);
 	ft_printf("output after sorting_back:\n");
 	ft_printf_dlst(output);
 	free(targets.list);
@@ -60,124 +63,215 @@ int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path)
 }
 //decide for element to push to A
 // -1 means error
-/*
-int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_dlist **new_path)
+int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path)
 {
-	t_stack	targets;
-	int		index_to_push;
-
-	ft_find_targets(stack_a, stack_b, &targets);
-	if (targets.list)
-		return (-1);
-	index_to_push = ft_find_min_moves(stack_a, stack_b, &targets, new_path);
-	return (index_to_push);
-}
-
-// compare movecount and factors to decide for shortest and optimal path
-int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path)
-{
-	t_dlist	*path2;
+	t_moves	moves_best;
+	t_moves	moves_tmp;
 	int		min_moves;
 	int		move_count2;
 	int		best_index;
-	int	i;
-	int	prev;
-	int	next;
-	int	min_of_list;
-	int	max_of_list;
-
-
+	int		i;
+	/* int	prev; */
+	/* int	next; */
+	/* int	min_of_list; */
+	/* int	max_of_list; */
+	ft_find_targets(stack_a, stack_b, targets);
+	if (!(targets->list))
+		return (-1);
 	i = 1;
-	min_moves = ft_find_moves(stack_a, stack_b, targets->list[0], min_path);
 	best_index = 0;
+	min_moves = ft_calcmoves(0, targets, &moves_best);
 	while (i < targets->len)
 	{
-		move_count2 = ft_find_moves(stack_a, stack_b, targets->list[i], &path2);
+		if (min_moves == 0)
+			break;
+		move_count2 = ft_calcmoves(i, targets, &moves_tmp);
 		if (move_count2 < min_moves)
 		{
-			min_path = &path2;
+			moves_best = moves_tmp;
 			min_moves = move_count2;
 			best_index = i;
 		}
 		// put this stupid else into a different function, its too long!
-		else if (move_count2 == min_moves)
-		{
-			min_of_list = ft_min_of_lst(stack_a->list, stack_a->len);
-			max_of_list = ft_max_of_lst(stack_a->list, stack_a->len);
-			next = stack_a->list[targets->list[i]];
-			prev = stack_a->list[(targets->list[i] - 1 + stack_a->len) % stack_a->len];
-			if (ft_optimal_pos(stack_b->list[i], prev, next, max_of_list, min_of_list) >\
-				ft_optimal_pos(stack_b->list[best_index], \
-				   stack_a->list[targets->list[best_index]], \
-				   stack_a->list[(targets->list[best_index] - 1 + stack_a->len)\
-				   % stack_a->len], max_of_list, min_of_list))
-			{
-				min_path = &path2;
-				min_moves = move_count2;
-				best_index = i;
-			}
-		}
+		/* else if (move_count2 == min_moves) */
+		/* { */
+		/* 	min_of_list = ft_min_of_lst(stack_a->list, stack_a->len); */
+		/* 	max_of_list = ft_max_of_lst(stack_a->list, stack_a->len); */
+		/* 	next = stack_a->list[targets->list[i]]; */
+		/* 	prev = stack_a->list[(targets->list[i] - 1 + stack_a->len) % stack_a->len]; */
+		/* 	if (ft_optimal_pos(stack_b->list[i], prev, next, max_of_list, min_of_list) >\ */
+		/* 		ft_optimal_pos(stack_b->list[best_index], \ */
+		/* 		   stack_a->list[targets->list[best_index]], \ */
+		/* 		   stack_a->list[(targets->list[best_index] - 1 + stack_a->len)\ */
+		/* 		   % stack_a->len], max_of_list, min_of_list)) */
+		/* 	{ */
+		/* 		moves_best = moves_tmp; */
+		/* 		min_moves = move_count2; */
+		/* 		best_index = i; */
+		/* 	} */
+		/* } */
 	}
+	ft_exec_moves(stack_a, stack_b, &moves_best, new_path);
+	pa(new_path, stack_a, stack_b);
 	return (best_index);
 }
 
-// returns number of moves and saves moves needed to path
-int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int curr_index, int target_index, t_dlist **path)
+/* //neg movecount is rra/rrb, positive is ra/rb */
+/* int	ft_movecount(t_stack *stack_a, t_stack *stack_b, t_stack *targets) */
+/* { */
+/* 	int	movecount_a; */
+/* 	int	movecount_b; */
+/* 	int	movecount; */
+/* 	int	pushobj; */
+/* 	int	i; */
+/**/
+/* 	movecount_a = 0; */
+/* 	movecount_b = 0; */
+/* 	i = 0; */
+/* 	pushobj = 0; */
+/* 	while (i < targets->len) */
+/* 	{ */
+/* 		if (i < stack_b->len / 2) */
+/* 			movecount_b = i; */
+/* 		else */
+/* 			movecount_b = -(stack_b->len - i); */
+/* 		if (targets->list[i] < targets->len / 2) */
+/* 			movecount_a = targets->list[i]; */
+/* 		else */
+/* 			movecount_a = -(targets->len - targets->list[i]); */
+/* 		if (movecount_a >= 0 && movecount_b >= 0) */
+/**/
+/* 		if (i <= (stack_b->len / 2) && targets->list[i] <= stack_a->len / 2) */
+/* 			movecount = i - targets->list[i]; */
+/* 		if (i <= (stack_b->len / 2) && targets->list[i] <= stack_a->len / 2) */
+/* 			movecount = i + targets->list[i] + 1; */
+/* 		if (ABS(movecount_a - movecount_b) < movecount_a + movecount_b) */
+/* 		movecount = min(movecount_a, movecount_b) + max(movecount_a, movecount_b) - min(movecount_a, movecount_b); */
+/* 	} */
+/* 	return (pushobj); */
+/* } */
+
+int	ft_calcmoves(int index, t_stack *targets, t_moves *moves)
 {
-	int	moves_countrarb;
-	int	moves_countrrarrb;
-	int	moves_countrarrb;
-	int	moves_countrrarb;
-	int	moves_b;
-	int	moves_a;
-	int	moves_count;
-	t_dlist	*curr_node;
+	int	pushobj;
 
-	if (curr_index > (stack_b->len / 2))
-		moves_b = stack_b->len - curr_index;
+	ft_memset(moves, 0, sizeof(t_moves));
+	index = 0;
+	pushobj = 0;
+	if (index < targets->len / 2)
+		moves->rb = index;
 	else
-		moves_b = curr_index;
-	if (target_index > (stack_a->len / 2))
-		moves_a = stack_a->len - target_index;
+		moves->rrb = (targets->len - index);
+	if (targets->list[index] < targets->len / 2)
+		moves->ra = targets->list[index];
 	else
-		moves_a = target_index;
-	curr_node = *path;
-	if (curr_index <= (stack_b->len / 2) && target_index <= stack_a->len / 2)
-	{
-		moves_count = curr_index - target_index;
-		while (curr_index--)
-		{
-			curr_node = ft_createaddback(&curr_node, "rb");
-			if (!curr_node)
-				return (0);
-		}
-		while (target_index--)
-		{
-			curr_node = ft_createaddback(&curr_node, "rb");
-			if (!curr_node)
-				return (0);
-		}
-	}
-	if (curr_index <= (stack_b->len / 2) && target_index <= stack_a->len / 2)
-	{
-		moves_count = curr_index + target_index + 1;
-		while (curr_index--)
-		{
-			curr_node = ft_createaddback(&curr_node, "rb");
-			if (!curr_node)
-				return (0);
-		}
-		while (target_index--)
-		{
-			curr_node = ft_createaddback(&curr_node, "rb");
-			if (!curr_node)
-				return (0);
-		}
-	}
-	assert(moves_count == ft_dlstsize(*path));
+		moves->rra = (targets->len - targets->list[index]);
+	ft_make_double_op(moves);
+	return (ft_countmoves(moves));
 }
-*/
 
+/* // compare movecount and factors to decide for shortest and optimal path */
+/* int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path) */
+/* { */
+/* 	t_dlist	*path2; */
+/* 	int		min_moves; */
+/* 	int		move_count2; */
+/* 	int		best_index; */
+/* 	int	i; */
+/* 	int	prev; */
+/* 	int	next; */
+/* 	int	min_of_list; */
+/* 	int	max_of_list; */
+/**/
+/**/
+/* 	i = 1; */
+/* 	min_moves = ft_find_moves(stack_a, stack_b, 0, targets->list[0], min_path); */
+/* 	best_index = 0; */
+/* 	while (i < targets->len) */
+/* 	{ */
+/* 		move_count2 = ft_find_moves(stack_a, stack_b, i, targets->list[i], &path2); */
+/* 		if (move_count2 < min_moves) */
+/* 		{ */
+/* 			min_path = &path2; */
+/* 			min_moves = move_count2; */
+/* 			best_index = i; */
+/* 		} */
+/* 		// put this stupid else into a different function, its too long! */
+/* 		else if (move_count2 == min_moves) */
+/* 		{ */
+/* 			min_of_list = ft_min_of_lst(stack_a->list, stack_a->len); */
+/* 			max_of_list = ft_max_of_lst(stack_a->list, stack_a->len); */
+/* 			next = stack_a->list[targets->list[i]]; */
+/* 			prev = stack_a->list[(targets->list[i] - 1 + stack_a->len) % stack_a->len]; */
+/* 			if (ft_optimal_pos(stack_b->list[i], prev, next, max_of_list, min_of_list) >\ */
+/* 				ft_optimal_pos(stack_b->list[best_index], \ */
+/* 				   stack_a->list[targets->list[best_index]], \ */
+/* 				   stack_a->list[(targets->list[best_index] - 1 + stack_a->len)\ */
+/* 				   % stack_a->len], max_of_list, min_of_list)) */
+/* 			{ */
+/* 				min_path = &path2; */
+/* 				min_moves = move_count2; */
+/* 				best_index = i; */
+/* 			} */
+/* 		} */
+/* 		if (min_moves == 1) */
+/* 			break; */
+/* 	} */
+/* 	return (best_index); */
+/* } */
+/**/
+/* // returns number of moves and saves moves needed to path */
+/* int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int curr_index, int target_index, t_dlist **path) */
+/* { */
+/* 	int	moves_b; */
+/* 	int	moves_a; */
+/* 	int	moves_count; */
+/* 	t_dlist	*curr_node; */
+/**/
+/* 	if (curr_index > (stack_b->len / 2)) */
+/* 		moves_b = stack_b->len - curr_index; */
+/* 	else */
+/* 		moves_b = curr_index; */
+/* 	if (target_index > (stack_a->len / 2)) */
+/* 		moves_a = stack_a->len - target_index; */
+/* 	else */
+/* 		moves_a = target_index; */
+/* 	curr_node = *path; */
+/* 	if (curr_index <= (stack_b->len / 2) && target_index <= stack_a->len / 2) */
+/* 	{ */
+/* 		moves_count = curr_index - target_index; */
+/* 		while (moves_count--) */
+/* 		{ */
+/* 			curr_node = ft_createaddback(&curr_node, "rb"); */
+/* 			if (!curr_node) */
+/* 				return (0); */
+/* 		} */
+/* 		while (target_index--) */
+/* 		{ */
+/* 			curr_node = ft_createaddback(&curr_node, "rb"); */
+/* 			if (!curr_node) */
+/* 				return (0); */
+/* 		} */
+/* 	} */
+/* 	if (curr_index > (stack_b->len / 2) && target_index > stack_a->len / 2) */
+/* 	{ */
+/* 		moves_count = curr_index + target_index + 1; */
+/* 		while (curr_index--) */
+/* 		{ */
+/* 			curr_node = ft_createaddback(&curr_node, "rb"); */
+/* 			if (!curr_node) */
+/* 				return (0); */
+/* 		} */
+/* 		while (target_index--) */
+/* 		{ */
+/* 			curr_node = ft_createaddback(&curr_node, "rb"); */
+/* 			if (!curr_node) */
+/* 				return (0); */
+/* 		} */
+/* 	} */
+/* 	assert(moves_count == ft_dlstsize(*path)); */
+/* 	return (1); */
+/* } */
 
 //returns a positive number or 0 if i should rotate and negative if reverse rotate
 int	ft_rot_or_revrot_of_i(int *stack, int len, int nb)

@@ -6,17 +6,63 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:34:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/07 17:11:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:01:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist	*ft_moves_to_list(t_moves *moves, t_dlist *lst)
+int	ft_countmoves(t_moves *moves)
 {
-	
+	 return (moves->sa + moves->sb + moves->ra + moves->rb + moves->rra +\
+		moves->rrb + moves->ss + moves->rr + moves->rrr);
 }
 
+t_dlist	*ft_rotate_moves_to_list(t_moves *moves, t_dlist *curr_node)
+{
+	while (moves->ra--)
+	{
+		curr_node = ft_createaddback(&curr_node, "ra");
+		if (!curr_node)
+			return (0);
+	}
+	while (moves->rb--)
+	{
+		curr_node = ft_createaddback(&curr_node, "rb");
+		if (!curr_node)
+			return (0);
+	}
+	while (moves->rr--)
+	{
+		curr_node = ft_createaddback(&curr_node, "rr");
+		if (!curr_node)
+			return (0);
+	}
+	return (curr_node);
+}
+
+t_dlist *ft_reverse_moves_to_list(t_moves *moves, t_dlist *curr_node)
+{
+	while (moves->rra--)
+	{
+		curr_node = ft_createaddback(&curr_node, "rra");
+		if (!curr_node)
+			return (0);
+	}
+	while (moves->rrb--)
+	{
+		curr_node = ft_createaddback(&curr_node, "rrb");
+		if (!curr_node)
+			return (0);
+	}
+	while (moves->rrr--)
+	{
+		curr_node = ft_createaddback(&curr_node, "rrr");
+		if (!curr_node)
+			return (0);
+	}
+	return (curr_node);
+}
 
 // combine rra and rrb into rrr
 void	ft_make_rrr(t_moves *moves)
@@ -68,7 +114,7 @@ void	ft_make_rr(t_moves *moves)
     }
 }
 
-t_moves	*ft_make_double_op(t_moves *moves)
+void	ft_make_double_op(t_moves *moves)
 {
 	ft_make_ss(moves);
 	ft_make_rr(moves);

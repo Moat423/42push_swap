@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:14:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/09 16:28:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:59:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	min(int a, int b)
 {
 	if (a < b)
+		return (a);
+	return (b);
+}
+
+int	max(int a, int b)
+{
+	if (a > b)
 		return (a);
 	return (b);
 }
