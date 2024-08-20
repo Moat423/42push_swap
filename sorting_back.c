@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:59:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 17:40:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:50:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 		ft_printf("index_to_push: %d\n",index_to_push);
 		//join new_path to output
 		ft_dlstadd_back(output, new_path);
+		new_path = NULL;
 	}
 	ft_printf("output after sorting_back:\n");
 	ft_printf_dlst(output);
