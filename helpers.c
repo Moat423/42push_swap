@@ -26,6 +26,22 @@ int	max(int a, int b)
 	return (b);
 }
 
+int	ft_index_of_min(int *list, int len)
+{
+	int	i;
+	int	min;
+
+	min = ft_min_of_lst(list, len);
+	i = 0;
+	while (i < len)
+	{
+		if (list[i] == min)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 int	ft_min_of_lst(int *list, int len)
 {
 	int	i;

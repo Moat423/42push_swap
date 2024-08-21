@@ -6,105 +6,142 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:00:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 11:01:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/21 13:02:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// create target for every index, return list of targets
-// tries to prefer that both use the same turn direction
-void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets) {
-	int	i;
+int	ft_get_targets_i(t_stack *stack_a, int value)
+{
+	int	target_index;
+	int min_diff;
+	int min_index;
+	int i;
+	int diff;
 
-	targets->len = stack_b->len;
-	targets->list = malloc(stack_b->len * sizeof(int));
-	if (!targets->list)
-		return ;
+	min_index = ft_index_of_min(stack_a->list, stack_a->len);
+	min_diff = INT_MAX;
+	target_index = 0;
 	i = 0;
-	while (i < stack_b->len / 2)
+	while (i < stack_a->len)
 	{
-		targets->list[i] = ft_getbettertarget_i(stack_a, stack_b->list[i], 0);
+		diff = stack_a->list[i] - value;
+		if (diff > 0 && diff < min_diff)
+		{
+			min_diff = diff;
+			target_index = i;
+		}
 		i++;
 	}
+	if (min_diff == INT_MAX)
+		target_index = min_index;
+	return (target_index);
+}
+
+t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b)
+{
+	t_stack targets;
+	int i;
+
+	i = 0;
+	targets.list = malloc(stack_b->len * sizeof(int));
+	if (!targets.list)
+	{
+		free(targets.list);
+		targets.len = 0;
+		return (targets);
+	}
+	targets.len = stack_b->len;
 	while (i < stack_b->len)
 	{
-		targets->list[i] = ft_getbettertarget_i(stack_a, stack_b->list[i], 1);
+		targets.list[i] = ft_get_targets_i(stack_a, stack_b->list[i]);
 		i++;
 	}
-	return ;
+	return (targets);
 }
 
-int	ft_get_target_i(int *stack, int len, int nb, int pref_bot)
-{
-	int	top;
-	int	bottom;
+/* // create target for every index, return list of targets */
+/* // tries to prefer that both use the same turn direction */
+/* void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets) { */
+/* 	int	i; */
+/**/
+/* 	targets->len = stack_b->len; */
+/* 	targets->list = malloc(stack_b->len * sizeof(int)); */
+/* 	if (!targets->list) */
+/* 		return ; */
+/* 	i = 0; */
+/* 	while (i < stack_b->len / 2) */
+/* 	{ */
+/* 		targets->list[i] = ft_getbettertarget_i(stack_a, stack_b->list[i], 0); */
+/* 		i++; */
+/* 	} */
+/* 	while (i < stack_b->len) */
+/* 	{ */
+/* 		targets->list[i] = ft_getbettertarget_i(stack_a, stack_b->list[i], 1); */
+/* 		i++; */
+/* 	} */
+/* 	return ; */
+/* } */
 
-	top = 0;
-	while (top < (len / 2) && stack[top] < nb)
-		top++;
-	bottom = len - 1;
-	while (bottom >= 0 && stack[bottom] < nb)
-		bottom--;
-	if (bottom > top + 1)
-		return (bottom);
-	else if (bottom <= top)
-		return (top);
-	else
-	{
-		if (pref_bot == 1)
-			return (bottom);
-		else
-			return (top);
-	}
-}
+/* int	ft_get_target_i(t_stack *stack, int nb, int pref_bot) */
+/* { */
+/* 	int	top; */
+/* 	int	bottom; */
+/**/
+/* 	top = 0; */
+/* 	while (top < (stack->len / 2) && stack->list[top] < nb) */
+/* 		top++; */
+/* 	bottom = stack->len - 1; */
+/* 	while (bottom >= 0 && stack->list[bottom] < nb) */
+/* 		bottom--; */
+/* 	if (bottom > top + 1) */
+/* 		return (bottom); */
+/* 	else if (bottom <= top) */
+/* 		return (top); */
+/* 	else */
+/* 	{ */
+/* 		if (pref_bot == 1) */
+/* 			return (bottom); */
+/* 		else */
+/* 			return (top); */
+/* 	} */
+/* } */
+/**/
+/* // get a target index to sort nb at good position into stack */
+/* int	ft_getbettertarget_i(t_stack *stack, int nb, int pref_bot) */
+/* { */
+/* 	long	top; */
+/* 	long	bottom; */
+/* 	long	number; */
+/**/
+/* 	//top = ft_index_of_min(stack->list, stack->len); */
+/* 	number = nb; */
+/* 	if (number < stack->list[top]) */
+/* 		return (top); */
+/* 	top = 0; */
+/* 	while (top < stack->len) */
+/* 	{ */
+/* 		if (stack->list[top] == number + 1 && stack->list[(top + stack->len - 1) % stack->len] == number - 1) */
+/* 			return ((top) % stack->len); */
+/* 		top++; */
+/* 	} */
+/* 	top = 0; */
+/* 	while (top < (stack->len / 2) && stack->list[top] < number) */
+/* 		top++; */
+/* 	bottom = stack->len - 1; */
+/* 	while (bottom >= 0 && stack->list[bottom] < number) */
+/* 		bottom--; */
+/* 	if (stack->len - bottom < top + 1) */
+/* 		return (bottom); */
+/* 	else if (stack->len - bottom > top + 1) */
+/* 		return (top); */
+/* 	else if (pref_bot == 1) */
+/* 		return (bottom); */
+/* 	else */
+/* 		return (top); */
+/* } */
 
-int	ft_getbettertarget_i(t_stack *stack, int nb, int pref_bot)
-{
-	int	top;
-	int	bottom;
-
-	top = ft_index_of_min(stack->list, stack->len);
-	if (nb < stack->list[top])
-		return (top);
-	top = 0;
-	while (top < stack->len)
-	{
-		if (stack->list[top] == nb + 1 && stack->list[(top + stack->len - 1) % stack->len] == nb - 1)
-			return ((top) % stack->len);
-		top++;
-	}
-	top = 0;
-	while (top < (stack->len / 2) && stack->list[top] < nb)
-		top++;
-	bottom = stack->len - 1;
-	while (bottom >= 0 && stack->list[bottom] < nb)
-		bottom--;
-	if (stack->len - bottom < top + 1)
-		return (bottom);
-	else if (stack->len - bottom > top + 1)
-		return (top);
-	else if (pref_bot == 1)
-		return (bottom);
-	else
-		return (top);
-}
-
-int	ft_index_of_min(int *list, int len)
-{
-	int	i;
-	int	min;
-
-	min = ft_min_of_lst(list, len);
-	i = 0;
-	while (i < len)
-	{
-		if (list[i] == min)
-			return (i);
-		i++;
-	}
-	return (i);
-}
 /*
 // cmp whether index 1 is at optimal position
 int	ft_cmp_inbetween(t_stack *stack_a, t_stack *stack_b, t_stack *targets, int index1, int index2)

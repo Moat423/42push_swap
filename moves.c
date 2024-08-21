@@ -12,6 +12,23 @@
 
 #include "push_swap.h"
 
+void	ft_null_moves(t_moves *moves)
+{
+    if (moves == NULL)
+        return;
+    moves->sa = 0;
+    moves->sb = 0;
+    moves->ss = 0;
+    moves->ra = 0;
+    moves->rb = 0;
+    moves->rr = 0;
+    moves->rra = 0;
+    moves->rrb = 0;
+    moves->rrr = 0;
+    moves->pa = 0;
+    moves->pb = 0;
+}
+
 int	ft_countmoves(t_moves *moves)
 {
 	 return (moves->sa + moves->sb + moves->ra + moves->rb + moves->rra +\

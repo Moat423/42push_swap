@@ -44,6 +44,8 @@ int	sorting_frame(t_stack *stack_a)
 	sorting_back(stack_a, &stack_b, &output);
 	if (stack_b.list)
 		free(stack_b.list);
+	ft_printf("output after sorting_back:\n");
+	ft_printf_dlst(&output);
 	return (0);
 }
 

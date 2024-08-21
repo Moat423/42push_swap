@@ -71,6 +71,7 @@ int	ft_exec_moves(t_stack *stack_a, t_stack *stack_b, t_moves *moves, t_dlist **
 //helpers
 int	min(int a, int b);
 int	max(int a, int b);
+int	ft_index_of_min(int *list, int len);
 int	ft_max_of_lst(int *list, int len);
 int	ft_min_of_lst(int *list, int len);
 
@@ -111,8 +112,6 @@ int	ft_sorted_ascending(int *stack, int len);
 
 //sorting_back.c
 int	ft_rot_or_revrot(int *stack, int len, int nb);
-int	ft_get_target_i(int *stack, int len, int nb, int pref_bot);
-void	ft_find_targets(t_stack *stack_a, t_stack *stack_b, t_stack *targets);
 int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int curr_index, int target_index, t_dlist **path);
 int	ft_optimal_pos(const int nb, const int prev, const int next, const int	max, const int min);
 int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path);
@@ -120,11 +119,11 @@ int	ft_rot_or_revrot_of_i(int *stack, int len, int nb);
 int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path);
 int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output);
 int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
-int	ft_calcmoves(int index, t_stack *targets, t_moves *moves);
+int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves);
 
 // targets.c
-int	ft_index_of_min(int *list, int len);
-int	ft_getbettertarget_i(t_stack *stack, int nb, int pref_bot);
+t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b);
+int	ft_get_targets_i(t_stack *stack_a, int value);
 
 //double_linked_list
 t_dlist	*ft_dlstnew(char *content);
@@ -149,6 +148,7 @@ t_trie *getnextend(t_trie *trie);
 void	printops_path(t_trie *cur);
 
 //moves.c
+void	ft_null_moves(t_moves *moves);
 int	ft_countmoves(t_moves *moves);
 t_dlist	*ft_rotate_moves_to_list(t_moves *moves, t_dlist *curr_node);
 t_dlist *ft_reverse_moves_to_list(t_moves *moves, t_dlist *curr_node);
