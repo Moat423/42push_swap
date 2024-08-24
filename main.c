@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/lib_printf/ft_printf.h"
 #include "push_swap.h"
 #include "newlib.h"
+#include <errno.h>
 
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
@@ -42,28 +42,17 @@ int	main(int argc, char *argv[])
 	}
 	else
 		list_a = ft_array_atoi(stack_a.len, &argv[1]);
+	if (argc == 2)
+		free_str_array((char **) charlist, stack_a.len);
 	if (!list_a || ft_find_dup(list_a, stack_a.len))
 		return (write(2, "Error\n", 6));
-	if (argc == 2)
-	{
-		ft_printf("charlist array:\n");
-		ft_printf_char_array(charlist, stack_a.len);
-		free_str_array((char **) charlist, stack_a.len);
-	}
-	ft_printf("int list_a:\n");
-	ft_printf_int_array(list_a, stack_a.len);
 	if (stack_a.len <= 1)
-		return (1);
+		return (0);
 	stack_a.list = get_position(stack_a.len, list_a);
-	ft_printf("positional array:\n");
-	ft_printf_int_array(stack_a.list, stack_a.len);
-	//testing_operations(&stack_a);
-	free((void *) list_a);
+	free(list_a);
 	sorting_frame(&stack_a);
-	ft_printf("array after sort:\n");
-	ft_printf_int_array(stack_a.list, stack_a.len);
 	free(stack_a.list);
-	return (1);
+	return (0);
 }
 
 //modiefies listlen in main, splits numstrings
@@ -88,6 +77,7 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 	int		*stack_a;
 	int		i;
 	char	*errorptr;
+	errno = 0;
 
 	stack_a = malloc(listlen * sizeof(int));
 	if (!stack_a)
@@ -115,10 +105,13 @@ int	*get_position(const int listlen, int *list_in)
 	if (!pos_list)
 		return (NULL);
 	sorted_list = ft_insertion_sort_int_list(list_in, listlen);
-	if (!sorted_list)
-		return (NULL);
-	if (sorted_list[0] == -1 && sorted_list[1] == -1)
+	if (!sorted_list || (sorted_list[0] == -1 && sorted_list[1] == -1))
+	{
+		free(pos_list);
+		if (!sorted_list)
+			return (NULL);
 		return (sorted_list);
+	}
 	while (i < listlen)
 	{
 		j = 0;
@@ -127,6 +120,7 @@ int	*get_position(const int listlen, int *list_in)
 		pos_list[i] = j;
 		i++;
 	}
+	free(sorted_list);
 	return (pos_list);
 }
 

@@ -6,11 +6,10 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:59:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 17:50:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:43:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/lib_printf/ft_printf.h"
 #include "push_swap.h"
 
 int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
@@ -19,11 +18,11 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 	t_dlist	*new_path;
 	int	index_min;
 
+	new_path = NULL;
 	if (!(ft_push_if_sorted(stack_a, stack_b, &new_path)))
 		return (1);
 	while (stack_b->len > 0)
 	{
-		new_path = NULL;
 		if (-1 == ft_find_optimal_push(stack_a, stack_b, &targets, &new_path))
 		{
 			free(targets.list);
@@ -31,14 +30,19 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 		}
 		ft_dlstadd_back(output, new_path);
 		free(targets.list);
+		new_path = NULL;
 	}
 	index_min = ft_index_of_min(stack_a->list, stack_a->len);
-	ft_printf("A sorted but not at right pos:\n");
-	ft_printf_int_array(stack_a->list, stack_a->len);
-	ft_printf("index_min: %d\n", index_min);
-	while (index_min != 0 && index_min < stack_a->len / 2)
+	/* ft_printf("A-----------after sorting back\n"); */
+	/* ft_printf_int_array(stack_a->list, stack_a->len); */
+	/* ft_printf("B-----------after sorting back\n"); */
+	/* ft_printf_int_array(stack_b->list, stack_b->len); */
+	while (index_min != 0 && index_min <= stack_a->len / 2)
+	{
 		ra(output, stack_a);
-	while (index_min != 0 && index_min > stack_a->len / 2)
+		index_min = ft_index_of_min(stack_a->list, stack_a->len);
+	}
+	while (ft_index_of_min(stack_a->list, stack_a->len) > stack_a->len / 2)
 		rra(output, stack_a);
 	return (1);
 }
@@ -69,10 +73,10 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 	int		move_count2;
 	int		best_index;
 	int		i;
-	int	prev;
-	int	next;
-	int	min_of_list;
-	int	max_of_list;
+	/* int	prev; */
+	/* int	next; */
+	/* int	min_of_list; */
+	/* int	max_of_list; */
 
 	*targets = ft_find_targets(stack_a, stack_b);
 	if (!(targets->list))
@@ -82,8 +86,6 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 	min_moves = ft_calcmoves(0, targets, stack_a->len, &moves_best);
 	while (i < targets->len)
 	{
-		if (min_moves == 0)
-			break;
 		move_count2 = ft_calcmoves(i, targets, stack_a->len, &moves_tmp);
 		if (move_count2 < min_moves)
 		{
@@ -92,30 +94,113 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 			best_index = i;
 		}
 		// put this stupid else into a different function, its too long!
-		else if (move_count2 == min_moves)
-		{
-			min_of_list = ft_min_of_lst(stack_a->list, stack_a->len);
-			max_of_list = ft_max_of_lst(stack_a->list, stack_a->len);
-			next = stack_a->list[targets->list[i]];
-			prev = stack_a->list[(targets->list[i] - 1 + stack_a->len) % stack_a->len];
-			if (ft_optimal_pos(stack_b->list[i], prev, next, max_of_list, min_of_list) >\
-				ft_optimal_pos(stack_b->list[best_index], \
-				   stack_a->list[targets->list[best_index]], \
-				   stack_a->list[(targets->list[best_index] - 1 + stack_a->len)\
-				   % stack_a->len], max_of_list, min_of_list))
-			{
-				moves_best = moves_tmp;
-				min_moves = move_count2;
-				best_index = i;
-			}
-		}
+		/* else if (move_count2 == min_moves) */
+		/* { */
+		/* 	min_of_list = ft_min_of_lst(stack_a->list, stack_a->len); */
+		/* 	max_of_list = ft_max_of_lst(stack_a->list, stack_a->len); */
+		/* 	next = stack_a->list[targets->list[i]]; */
+		/* 	prev = stack_a->list[(targets->list[i] - 1 + stack_a->len) % stack_a->len]; */
+		/* 	if (ft_optimal_pos(stack_b->list[i], prev, next, max_of_list, min_of_list) >\ */
+		/* 		ft_optimal_pos(stack_b->list[best_index], \ */
+		/* 		   stack_a->list[targets->list[best_index]], \ */
+		/* 		   stack_a->list[(targets->list[best_index] - 1 + stack_a->len)\ */
+		/* 		   % stack_a->len], max_of_list, min_of_list)) */
+		/* 	{ */
+		/* 		moves_best = moves_tmp; */
+		/* 		min_moves = move_count2; */
+		/* 		best_index = i; */
+		/* 	} */
+		/* } */
+		/* if (min_moves == 0) */
+		/* 	break; */
 		i++;
 	}
-	ft_printf("min_moves:%d\n", min_moves);
-	ft_printf("best_index:%d\n", best_index);
+	/* ft_printf("A>>>>>>>>>>>>>>>>>>>>>>>>>before pushing element %i\n", best_index); */
+	/* ft_printf_int_array(stack_a->list, stack_a->len); */
+	/* ft_printf("B>>>>>>>>>>>>>>>>>>>>>>>>>before pushing element %i\n", best_index); */
+	/* ft_printf_int_array(stack_b->list, stack_b->len); */
+	/* ft_printf("moving index:%d \n", best_index); */
+	/* ft_printf("moves before exec: \n"); */
+	/* ft_print_moves(&moves_best); */
 	ft_exec_moves(stack_a, stack_b, &moves_best, new_path);
 	pa(new_path, stack_a, stack_b);
 	return (best_index);
+}
+
+void	ft_clean_moves(int *cost, t_moves *moves)
+{
+	int	rot_case;
+
+	rot_case = ft_index_of_min(cost, 4);
+	if (rot_case <= 1)
+		{
+		moves->rra = 0;
+		if (rot_case == 0)
+		{
+			moves->rrb = 0;
+			ft_make_rr(moves);
+		}
+		else
+			moves->rb = 0;
+		}
+	else if (rot_case >= 2)
+		{
+		moves->ra = 0;
+		if (rot_case == 2)
+			moves->rrb = 0;
+		else
+		{
+			moves->rb = 0;
+			ft_make_rrr(moves);
+		}
+		}
+}
+
+int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
+{
+	int	pushobj;
+	int	cost[4];
+
+	ft_null_moves(moves);
+	ft_memset(moves, 0, sizeof(&moves));
+	index = 0;
+	pushobj = 0;
+	if (targets->list[index] == -1)
+	{
+		ft_printf("invalid target for i = %d\n", index);
+		exit (1);
+	}
+	moves->rb = index;
+	moves->rrb = (targets->len - index);
+	moves->ra = targets->list[index];
+	moves->rra = (len_a - targets->list[index]);
+	cost[0] = moves->ra + moves->rb - min(moves->ra, moves->rb);
+	cost[1] = moves->ra + moves->rrb;
+	cost[2] = moves->rra + moves->rb;
+	cost[3] = moves->rra + moves->rrb - min(moves->rra, moves->rrb);
+//where the fuck do the double operations come from?????
+	ft_clean_moves(cost, moves);
+	return (ft_countmoves(moves));
+}
+
+int	ft_calcmoves_tob(int index, t_stack *targets, int len_b, t_moves *moves)
+{
+	int	pushobj;
+
+	ft_null_moves(moves);
+	ft_memset(moves, 0, sizeof(&moves));
+	index = 0;
+	pushobj = 0;
+	if (index <= targets->len / 2)
+		moves->ra = index;
+	else
+		moves->rra = (targets->len - index);
+	if (targets->list[index] <= len_b / 2)
+		moves->rb = targets->list[index];
+	else
+		moves->rrb = (len_b - targets->list[index]);
+	ft_make_double_op(moves);
+	return (ft_countmoves(moves));
 }
 
 /* //neg movecount is rra/rrb, positive is ra/rb */
@@ -152,27 +237,6 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 /* 	} */
 /* 	return (pushobj); */
 /* } */
-
-int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
-{
-	int	pushobj;
-
-	ft_null_moves(moves);
-	ft_memset(moves, 0, sizeof(&moves));
-	index = 0;
-	pushobj = 0;
-	if (index <= targets->len / 2)
-		moves->rb = index;
-	else
-		moves->rrb = (targets->len - index);
-	if (targets->list[index] <= len_a / 2)
-		moves->ra = targets->list[index];
-	else
-		moves->rra = (len_a - targets->list[index]);
-	ft_make_double_op(moves);
-	return (ft_countmoves(moves));
-}
-
 /* // compare movecount and factors to decide for shortest and optimal path */
 /* int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path) */
 /* { */

@@ -14,24 +14,24 @@
 
 int	ft_exec_moves(t_stack *stack_a, t_stack *stack_b, t_moves *moves, t_dlist **lst)
 {
-	while (moves->sa)
+	while ((moves->sa)--)
 		sa(lst, stack_a);
-	while (moves->sb)
+	while ((moves->sb)--)
 		sb(lst, stack_a);
-	while (moves->ra--)
+	while ((moves->ra)--)
 		ra(lst, stack_a);
-	while (moves->rb--)
+	while ((moves->rb)--)
 		rb(lst, stack_a);
-	while (moves->rra--)
+	while ((moves->rra)--)
 		rra(lst, stack_a);
-	while (moves->rrb--)
+	while ((moves->rrb)--)
 		rrb(lst, stack_a);
-	while (moves->rr--)
+	while ((moves->rr)--)
 	{
 		rr(stack_a, stack_b);
 		ft_dlstadd_back(lst, ft_dlstnew("rr"));
 	}
-	while (moves->rrr--)
+	while ((moves->rrr)--)
 	{
 		rrr(stack_a, stack_b);
 		ft_dlstadd_back(lst, ft_dlstnew("rrr"));

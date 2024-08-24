@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:14:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 15:59:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:40:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,21 @@ int	max(int a, int b)
 	return (b);
 }
 
+int	ft_index_of_max(int *list, int len)
+{
+	int	i;
+	int	max;
+
+	max = ft_max_of_lst(list, len);
+	i = 0;
+	while (i < len)
+	{
+		if (list[i] == max)
+			return (i);
+		i++;
+	}
+	return (i);
+}
 int	ft_index_of_min(int *list, int len)
 {
 	int	i;

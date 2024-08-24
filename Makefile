@@ -20,6 +20,7 @@ SANITIZE_FLAGS := -fsanitize=address,undefined
 NAME := push_swap
 SANITIZE_NAME := $(NAME)_sanitize
 LIBFT_DIR := libft
+LIBFT_A := $(LIBFT_DIR)/libft.a
 LIBFT := -lft
 INCLUDES := -L$(LIBFT_DIR)
 
@@ -33,23 +34,29 @@ OBJS := $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 HEADERS := push_swap.h
 
-.PHONY: all, clean, fclean, re
+.PHONY: all, clean, fclean, re, submodules
 
-all: $(NAME)
+all: submodules $(NAME)
+
+run: all
+	./$(NAME)
+
+submodules:
+	@git submodule status libft | grep -q '^-' && \
+		echo "Initializing libft and its submodules..." && \
+		git submodule update --init --recursive || true
 
 $(NAME): $(OBJS) libft/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LIBFT) -o $@
 
 $(OBJ_DIR)/%.o: %.c $(HEADERS) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-
-$(LIBFT):
+	
+$(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
-
-$(OBJS): $(SRCS)
 
 clean:
 	rm -dRf $(OBJ_DIR)
@@ -63,10 +70,6 @@ re: fclean all
 
 sanitize: CFLAGS += $(SANITIZE_FLAGS)
 sanitize: LDFLAGS += $(SANITIZE_FLAGS)
-sanitize: $(SANITIZE_NAME)
 
-run: all
-	./push_swap
-
-$(SANITIZE_NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -o $@
+sanitize: CFLAGS += $(SANITIZE_FLAGS)
+sanitize: re

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 17:21:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:41:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ typedef struct s_dlist
 	struct s_dlist	*prev;
 } t_dlist;
 
+typedef struct s_costs
+{
+	int	t_i;
+	int	cost;
+	char	type;
+} t_costs;
+
 //helpers_print.c
 void	ft_print_moves(t_moves *moves);
 void	testing_operations(t_stack *stack_a);
@@ -72,6 +79,7 @@ int	ft_exec_moves(t_stack *stack_a, t_stack *stack_b, t_moves *moves, t_dlist **
 int	min(int a, int b);
 int	max(int a, int b);
 int	ft_index_of_min(int *list, int len);
+int	ft_index_of_max(int *list, int len);
 int	ft_max_of_lst(int *list, int len);
 int	ft_min_of_lst(int *list, int len);
 
@@ -109,6 +117,8 @@ void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
 int	ft_rot_or_revrot(int *stack, int len, int nb);
 int	ft_sorted_descending(int *stack, int len);
 int	ft_sorted_ascending(int *stack, int len);
+void	ft_splitpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
+int	ft_pushsort_to_b(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
 
 //sorting_back.c
 int	ft_rot_or_revrot(int *stack, int len, int nb);
@@ -120,6 +130,7 @@ int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path);
 int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output);
 int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves);
+int	ft_calcmoves_tob(int index, t_stack *targets, int len_a, t_moves *moves);
 
 // targets.c
 t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b);
