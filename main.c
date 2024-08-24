@@ -88,6 +88,11 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 		stack_a[i] = ft_strtoimax(charlist[i], &errorptr, 10);
 		i++;
 	}
+	if (!errno)
+	{
+		free(stack_a);
+		return (stack_a = NULL);
+	}
 	return (stack_a);
 }
 

@@ -61,3 +61,9 @@ void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b)
 	push_to_2(stack_a, stack_b);
 	ft_dlstadd_back(node, ft_dlstnew("pb"));
 }
+
+void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
+{
+	ss(stack_a, stack_b);
+	ft_dlstadd_back(node, ft_dlstnew("ss"));
+}

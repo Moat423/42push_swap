@@ -100,6 +100,7 @@ void	rra(t_dlist **node, t_stack *stack);
 void	rrb(t_dlist **node, t_stack *stack);
 void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b);
+void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
@@ -131,6 +132,7 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output);
 int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves);
 int	ft_calcmoves_tob(int index, t_stack *targets, int len_a, t_moves *moves);
+void	ft_handle_stack_operations(t_dlist **moves, t_stack *stack_a, t_stack *stack_b, int splitpoint);
 
 // targets.c
 t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b);

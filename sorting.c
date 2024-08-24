@@ -40,9 +40,9 @@ int	sorting_frame(t_stack *stack_a)
 	/* ft_printf("output before sorting back:\n"); */
 	/* ft_printf_dlst(&output); */
 	ft_splitpoint(&output, stack_a, &stack_b);
-	/* ft_printf("A-----------before storing back\n"); */
+	/* ft_printf("A-----------before sorting back\n"); */
 	/* ft_printf_int_array(stack_a->list, stack_a->len); */
-	/* ft_printf("B-----------before storing back\n"); */
+	/* ft_printf("B-----------before sorting back\n"); */
 	/* ft_printf_int_array(stack_b.list, stack_b.len); */
 	if (stack_a->len == 2)
 		sa(&output, stack_a);
@@ -67,26 +67,27 @@ void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 		midpoint = elemnbr - stack_a->len / 2;
 		while (stack_b->len < midpoint && stack_a->len > 3)
 		{
-			if (stack_a->list[0] < midpoint)
-				pb(moves, stack_a, stack_b);
-			else if (stack_a->list[1] < midpoint)
-			{
-			//maybe optimize if sa is needed
-				ra(moves, stack_a);
-				pb(moves, stack_a, stack_b);
-			}
-			else if (stack_a->list[stack_a->len - 1] < midpoint)
-			{
-				rra(moves, stack_a);
-				pb(moves, stack_a, stack_b);
-			}
-			else
-			{
-				if (ft_rot_or_revrot(stack_a->list, stack_a->len, midpoint) >= 0)
-					ra(moves, stack_a);
-				else
-					rra(moves, stack_a);
-			}
+			ft_handle_stack_operations(moves, stack_a, stack_b, midpoint);
+			/* if (stack_a->list[0] < midpoint) */
+			/* 	pb(moves, stack_a, stack_b); */
+			/* else if (stack_a->list[1] < midpoint) */
+			/* { */
+			/* //maybe optimize if sa is needed */
+			/* 	ra(moves, stack_a); */
+			/* 	pb(moves, stack_a, stack_b); */
+			/* } */
+			/* else if (stack_a->list[stack_a->len - 1] < midpoint) */
+			/* { */
+			/* 	rra(moves, stack_a); */
+			/* 	pb(moves, stack_a, stack_b); */
+			/* } */
+			/* else */
+			/* { */
+			/* 	if (ft_rot_or_revrot(stack_a->list, stack_a->len, midpoint) >= 0) */
+			/* 		ra(moves, stack_a); */
+			/* 	else */
+			/* 		rra(moves, stack_a); */
+			/* } */
 		}
 	}
 }
@@ -148,44 +149,49 @@ int	ft_pushsort_to_b(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dli
 	return (best_index);
 }
 
+void	ft_handle_stack_operations(t_dlist **moves, t_stack *stack_a, t_stack *stack_b, int splitpoint)
+{
+	if (stack_a->list[0] < splitpoint)
+	{
+		pb(moves, stack_a, stack_b);
+		return ;
+	}
+	//maybe optimize if sa is needed
+	else if (stack_a->list[1] < splitpoint)
+	{
+		ra(moves, stack_a);
+	}
+	else if (stack_a->list[stack_a->len - 1] < splitpoint)
+		rra(moves, stack_a);
+	else
+	{
+		if (ft_rot_or_revrot(stack_a->list, stack_a->len, splitpoint) >= 0)
+			ra(moves, stack_a);
+		else
+			rra(moves, stack_a);
+		return ;
+	}
+	pb(moves, stack_a, stack_b);
+	return ;
+}
+
 void	ft_splitpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 {
 	int	splitpoint;
 	int	elemnbr;
+	int	chunk_size;
 
-	elemnbr = stack_a->len;
 	/* splitpoint = 3 / 80 * stack_a->len + 25 / 4; */
-	splitpoint = elemnbr - 19;
+	elemnbr = stack_a->len;
+	chunk_size = 20;
+	splitpoint = chunk_size;
 	while (stack_a->len > 3)
 	{
-		if (stack_a->len > 19)
-			splitpoint = elemnbr - (stack_a->len - 19);
-		else
-			splitpoint = stack_a->len;
 		while (stack_b->len < splitpoint && stack_a->len > 3)
 		{
-
-			if (stack_a->list[0] < splitpoint)
-				pb(moves, stack_a, stack_b);
-			else if (stack_a->list[1] < splitpoint)
-			{
-			//maybe optimize if sa is needed
-				ra(moves, stack_a);
-				pb(moves, stack_a, stack_b);
-			}
-			else if (stack_a->list[stack_a->len - 1] < splitpoint)
-			{
-				rra(moves, stack_a);
-				pb(moves, stack_a, stack_b);
-			}
-			else
-			{
-				if (ft_rot_or_revrot(stack_a->list, stack_a->len, splitpoint) >= 0)
-					ra(moves, stack_a);
-				else
-					rra(moves, stack_a);
-			}
+			ft_handle_stack_operations(moves, stack_a, stack_b, splitpoint);
 		}
+		splitpoint += chunk_size;
 		/* splitpoint += 3 / 80 * stack_a->len + 25 / 4; */
 	}
 }

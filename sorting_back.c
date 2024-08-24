@@ -132,28 +132,26 @@ void	ft_clean_moves(int *cost, t_moves *moves)
 	int	rot_case;
 
 	rot_case = ft_index_of_min(cost, 4);
-	if (rot_case <= 1)
-		{
+	if (rot_case != 0)
+	{
+		moves->rr = 0;
+		if (rot_case >= 2)
+			moves->ra = 0;
+		if (rot_case <= 2)
+			moves->rrr = 0;
+		if (rot_case != 2)
+			moves->rb = 0;
+		else
+			moves->rrb = 0;
+		if (rot_case == 1)
+			moves->rra = 0;
+	}
+	else
+	{
 		moves->rra = 0;
-		if (rot_case == 0)
-		{
-			moves->rrb = 0;
-			ft_make_rr(moves);
-		}
-		else
-			moves->rb = 0;
-		}
-	else if (rot_case >= 2)
-		{
-		moves->ra = 0;
-		if (rot_case == 2)
-			moves->rrb = 0;
-		else
-		{
-			moves->rb = 0;
-			ft_make_rrr(moves);
-		}
-		}
+		moves->rrb = 0;
+		moves->rrr = 0;
+	}
 }
 
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
@@ -178,7 +176,6 @@ int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
 	cost[1] = moves->ra + moves->rrb;
 	cost[2] = moves->rra + moves->rb;
 	cost[3] = moves->rra + moves->rrb - min(moves->rra, moves->rrb);
-//where the fuck do the double operations come from?????
 	ft_clean_moves(cost, moves);
 	return (ft_countmoves(moves));
 }
