@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers_sorted.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/26 14:08:34 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/08/26 14:08:36 by lmeubrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
@@ -25,7 +36,7 @@ int	ft_sorted_descending(int *stack, int len)
 	i = 0;
 	while (i + 1 < len)
 	{
-		if (stack[i]  + 1 == stack[i + 1])
+		if (stack[i] + 1 == stack[i + 1])
 			return (0);
 		i++;
 	}
@@ -35,7 +46,7 @@ int	ft_sorted_descending(int *stack, int len)
 // sort 2 elements ascending (swap if in reverse) record in moves
 void	sort_2_a(t_dlist **moves, t_stack *stack)
 {
-	if (stack->list[0]>stack->list[1])
+	if (stack->list[0] > stack->list[1])
 		sa(moves, stack);
 	return ;
 }

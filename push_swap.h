@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 12:03:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:11:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <errno.h>
 # include "libft/lib_ft/libft.h"
 # include "libft/get_next_line/get_next_line.h"
 # include "libft/lib_printf/ft_printf.h"
@@ -104,6 +105,7 @@ void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 
 //main.c
 void	ft_assign_index_pos(const int listlen, int *list_in, int *sorted_list, int *pos_list);
+int	ft_errorcheck_array(int *list_a, int len, t_stack *stack_a);
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
 void		ft_printf_int_array(const int *array, const int len);
@@ -128,7 +130,6 @@ int	ft_sorted_ascending(int *stack, int len);
 //sorting_back.c
 int	ft_rot_or_revrot(int *stack, int len, int nb);
 int	ft_find_moves(t_stack *stack_a, t_stack *stack_b, int curr_index, int target_index, t_dlist **path);
-int	ft_optimal_pos(const int nb, const int prev, const int next, const int	max, const int min);
 int ft_find_min_moves(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **min_path);
 int	ft_rot_or_revrot_of_i(int *stack, int len, int nb);
 int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path);
@@ -136,7 +137,7 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output);
 int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves);
 int	ft_calcmoves_tob(int index, t_stack *targets, int len_a, t_moves *moves);
-void	ft_handle_stack_operations(t_dlist **moves, t_stack *stack_a, t_stack *stack_b, int splitpoint);
+void	ft_handle_operations(t_dlist **moves, t_stack *a, t_stack *b, int splt);
 
 // targets.c
 t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b);

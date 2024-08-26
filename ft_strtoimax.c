@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:58:52 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:33:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:13:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,40 @@ int	check_base(const char *nptr, char ***endptr, int base, int sign)
 	return (nb);
 }
 
-//to be implemented (too long for norminette, not needed for current usecase)
+// returns int from nptr with base (on error endptr=wrong char)
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 {
-	return (0);
+	long	result;
+	int		buffer;
+	int		i;
+
+	result = 0;
+	i = 0;
+	while (*(nptr + i))
+	{
+		if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
+			buffer = *(nptr + i) - 55;
+		else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
+			buffer = *(nptr + i) - 87;
+		else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
+			buffer = *(nptr + i) - '0';
+		else
+			break ;
+		if (buffer + 1 > base)
+			break ;
+		if ((i == 9 && sign == 1 && (result * base) > INT_MAX - buffer) \
+		|| ((i == 9 && sign == -1 && (-result * 10) < INT_MIN + buffer)))
+		{
+			errno = ERANGE;
+			if (sign == 1)
+				return (INT_MAX);
+			else
+				return (INT_MIN);
+		}
+		result = result * base + buffer;
+		**endptr = (char *)(nptr + i++);
+	}
+	return ((int)(result * sign));
 }
 
 // returns the amount of spaces that need to be skipped (according to isspace)

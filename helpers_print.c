@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:22:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/09 16:22:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:08:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,3 @@ void	ft_printf_char_array(char *const *array, const int len)
 		i++;
 	}
 }
-
-

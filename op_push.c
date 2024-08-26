@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:58:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/20 17:44:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:54:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,4 @@ void	rra(t_dlist **node, t_stack *stack)
 {
 	reverse_rotate(stack);
 	ft_dlstadd_back(node, ft_dlstnew("rra"));
-}
-
-void	rrb(t_dlist **node, t_stack *stack)
-{
-	reverse_rotate(stack);
-	ft_dlstadd_back(node, ft_dlstnew("rrb"));
-}
-
-void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
-{
-	push_to_2(stack_b, stack_a);
-	ft_createaddback(node, "pa");
-	/* ft_dlstadd_back(node, ft_dlstnew("pa")); */
-}
-
-void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b)
-{
-	push_to_2(stack_a, stack_b);
-	ft_dlstadd_back(node, ft_dlstnew("pb"));
-}
-
-void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
-{
-	ss(stack_a, stack_b);
-	ft_dlstadd_back(node, ft_dlstnew("ss"));
 }
