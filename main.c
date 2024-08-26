@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/07 17:11:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:05:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,12 @@
 #include "newlib.h"
 #include <errno.h>
 
-char *const	*ft_split_or_1(int *listlen, char *argv[]);
-int			ft_find_dup(int *list, int listlen);
-void		ft_printf_int_array(const int *array, const int len);
-void		ft_printf_char_array(char *const *array, const int len);
-int			*get_position(const int listlen, int *list_in);
-int			*ft_insertion_sort_int_list(const int *list, const int listlen);
-int			*ft_array_atoi(const int listlen, char *const *charlist);
-
-void	testing_operations(t_stack *stack_a);
-//TODO check if the unsigned int was neccessary somewhere
-
 // TODO take out printfs, shorten function
 int	main(int argc, char *argv[])
 {
 	char *const		*charlist;
-	int *list_a;
-	t_stack	stack_a;
+	int				*list_a;
+	t_stack			stack_a;
 
 	if (argc == 1)
 		return (0);
@@ -67,7 +56,6 @@ char *const	*ft_split_or_1(int *listlen, char *argv[])
 	{
 		(*listlen)++;
 	}
-	// (*listlen)--;
 	return (charlist);
 }
 
@@ -77,8 +65,8 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 	int		*stack_a;
 	int		i;
 	char	*errorptr;
-	errno = 0;
 
+	errno = 0;
 	stack_a = malloc(listlen * sizeof(int));
 	if (!stack_a)
 		return (NULL);
@@ -97,10 +85,7 @@ int	*get_position(const int listlen, int *list_in)
 {
 	int				*pos_list;
 	int				*sorted_list;
-	int	i;
-	int	j;
 
-	i = 0;
 	pos_list = malloc (listlen * sizeof(int));
 	if (!pos_list)
 		return (NULL);
@@ -112,53 +97,24 @@ int	*get_position(const int listlen, int *list_in)
 			return (NULL);
 		return (sorted_list);
 	}
-	while (i < listlen)
-	{
-		j = 0;
-		while (j < listlen && list_in[i] != sorted_list[j])
-			j++;
-		pos_list[i] = j;
-		i++;
-	}
+	ft_assign_index_pos(listlen, list_in, sorted_list, pos_list);
 	free(sorted_list);
 	return (pos_list);
 }
 
-// use insertion sort to sort list and return a new malloced list
-int	*ft_insertion_sort_int_list(const int *list, const int listlen)
+//assigns indexes to all list items
+void	ft_assign_index_pos(const int len, int *list_in, int *slist, int *plist)
 {
-	int	j;
-	int	*sorted_list;
-
-	sorted_list = malloc(listlen * sizeof(int));
-	if (!sorted_list)
-		return (NULL);
-	j = 0;
-	while (j < listlen)
-	{
-		sorted_list[j] = list[j];
-		j++;
-	}
-	ft_sort_int_tab(sorted_list, listlen);
-	return (sorted_list);
-}
-
-int	ft_find_dup(int *list, int listlen)
-{
-	int	i;
-	int	j;
+	int				i;
+	int				j;
 
 	i = 0;
-	while (i < listlen)
+	while (i < len)
 	{
-		j = i + 1;
-		while (j < listlen)
-		{
-			if (list[i] == list[j])
-				return (i);
+		j = 0;
+		while (j < len && list_in[i] != slist[j])
 			j++;
-		}
+		plist[i] = j;
 		i++;
 	}
-	return (0);
 }

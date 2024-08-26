@@ -6,9 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:54:42 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/02/08 18:16:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:05:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "push_swap.h"
 
 void	ft_sort_int_tab(int *tab, int size)
 {
@@ -29,4 +31,23 @@ void	ft_sort_int_tab(int *tab, int size)
 		tab[j + 1] = buffer;
 		i++;
 	}
+}
+
+// use insertion sort to sort list and return a new malloced list
+int	*ft_insertion_sort_int_list(const int *list, const int listlen)
+{
+	int	j;
+	int	*sorted_list;
+
+	sorted_list = malloc(listlen * sizeof(int));
+	if (!sorted_list)
+		return (NULL);
+	j = 0;
+	while (j < listlen)
+	{
+		sorted_list[j] = list[j];
+		j++;
+	}
+	ft_sort_int_tab(sorted_list, listlen);
+	return (sorted_list);
 }

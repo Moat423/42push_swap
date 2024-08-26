@@ -6,25 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:14:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/23 14:40:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:56:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
 
 int	ft_index_of_max(int *list, int len)
 {

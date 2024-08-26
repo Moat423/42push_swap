@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/23 14:41:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:03:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b);
 void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 
+//main.c
+void	ft_assign_index_pos(const int listlen, int *list_in, int *sorted_list, int *pos_list);
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
 void		ft_printf_int_array(const int *array, const int len);
