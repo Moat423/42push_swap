@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 17:58:52 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 16:13:07 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/08/26 17:40:37 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/08/26 17:41:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,25 @@ int	check_base(const char *nptr, char ***endptr, int base, int sign)
 	return (nb);
 }
 
+// converts char to value
+int	ft_char_to_value(char c, int base)
+{
+	int	buffer;
+
+	if (c >= 'A' && c <= 'Z')
+		buffer = c - 55;
+	else if (c >= 'a' && c <= 'z')
+		buffer = c - 87;
+	else if (c >= '0' && c <= '9')
+		buffer = c - '0';
+	else
+		return (-1);
+	if (buffer < base)
+		return (buffer);
+	else
+		return (-1);
+}
+
 // returns int from nptr with base (on error endptr=wrong char)
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 {
@@ -116,15 +135,8 @@ int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 	i = 0;
 	while (*(nptr + i))
 	{
-		if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
-			buffer = *(nptr + i) - 55;
-		else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
-			buffer = *(nptr + i) - 87;
-		else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
-			buffer = *(nptr + i) - '0';
-		else
-			break ;
-		if (buffer + 1 > base)
+		buffer = ft_char_to_value(*(nptr + i), base);
+		if (buffer == -1)
 			break ;
 		if ((i == 9 && sign == 1 && (result * base) > INT_MAX - buffer) \
 		|| ((i == 9 && sign == -1 && (-result * 10) < INT_MIN + buffer)))
@@ -136,20 +148,9 @@ int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
 				return (INT_MIN);
 		}
 		result = result * base + buffer;
-		**endptr = (char *)(nptr + i++);
+		**endptr = (char *)(nptr + ++i);
 	}
 	return ((int)(result * sign));
-}
-
-// returns the amount of spaces that need to be skipped (according to isspace)
-int	skip_whitespace(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
-		i++;
-	return (i);
 }
 
 // if next char is -, returns -1, + returns 1, 
