@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:58:52 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/07/26 17:01:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:33:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <limits.h>
 #include <errno.h>
+#include <limits.h>
+#include <stdlib.h>
 
 /*
 DESCRIPTION
@@ -52,6 +52,7 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base);
 int	skip_whitespace(const char *str);
 int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int	determine_sign(const char *nptr);
+int	check_base(const char *nptr, char ***endprt, int base, int sign);
 
 int	ft_strtoimax(const char *nptr, char **endptr, int base)
 {
@@ -60,8 +61,8 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base)
 	int	nb;
 
 	errno = 0;
-	*endptr =  (char *) nptr;
-	if (!(base >= 0 && base <= 36) || ( nptr == NULL || *nptr == '\0'))
+	*endptr = (char *) nptr;
+	if (!(base >= 0 && base <= 36) || (nptr == NULL || *nptr == '\0'))
 	{
 		errno = EINVAL;
 		return (0);
@@ -72,69 +73,48 @@ int	ft_strtoimax(const char *nptr, char **endptr, int base)
 		i++;
 	else
 		sign = 1;
+	nptr = nptr + i;
+	nb = check_base(nptr, &endptr, base, sign);
+	return (nb);
+}
+
+int	check_base(const char *nptr, char ***endptr, int base, int sign)
+{
+	int	i;
+	int	nb;
+
+	i = 0;
 	nb = 0;
 	if (base == 0)
 	{
 		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
-			nb = ft_atoi_base_e(&nptr[i + 2], &endptr, 16, sign);
+			nb = ft_atoi_base_e(&nptr[i + 2], endptr, 16, sign);
 		else if (nptr[i] == '0')
-			nb = ft_atoi_base_e(&nptr[i++], &endptr, 8, sign);
+			nb = ft_atoi_base_e(&nptr[i++], endptr, 8, sign);
 		else
-			nb = ft_atoi_base_e(&nptr[i], &endptr, 10, sign);
+			nb = ft_atoi_base_e(&nptr[i], endptr, 10, sign);
 	}
 	else if (base == 16)
 	{
 		if (nptr[i] == '0' && (nptr[i + 1] == 'x' || nptr[i + 1] == 'X'))
 			i += 2;
-		nb = ft_atoi_base_e(&nptr[i], &endptr, 16, sign);
+		nb = ft_atoi_base_e(&nptr[i], endptr, 16, sign);
 	}
 	else if (base >= 2 && base <= 32)
-		nb = ft_atoi_base_e(&nptr[i], &endptr, base, sign);
+		nb = ft_atoi_base_e(&nptr[i], endptr, base, sign);
 	return (nb);
 }
 
-	// returns int from nptr assuming its written in base (on error endptr=wrong char)
-	int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
-	{
-		long	result;
-		int		buffer;
-		int		i;
-		
-		result = 0;
-		i = 0;
-		while (*(nptr + i))
-		{
-			if (*(nptr + i) >= 'A' && *(nptr + i) <= 'Z')
-				buffer = *(nptr + i) - 55;
-			else if (*(nptr + i) >= 'a' && *(nptr + i) <= 'z')
-				buffer = *(nptr + i) - 87;
-			else if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
-				buffer = *(nptr + i) - '0';
-			else
-				break;
-			if (buffer + 1 > base)
-			break;
-		if (i == 9 && sign == 1 && (result * base) > INT_MAX - buffer)
-		{
-			errno = ERANGE;
-			return (INT_MAX);
-		}
-		if (i == 9 && sign == -1 && (-result * 10) < INT_MIN + buffer)
-		{
-			errno = ERANGE;
-			return (INT_MIN);
-		}
-		result = result * base + buffer;
-		i++;
-		**endptr = (char *) (nptr + i);
-	}
-	return ((int) (result * sign));
+//to be implemented (too long for norminette, not needed for current usecase)
+int	ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign)
+{
+	return (0);
 }
 
 // returns the amount of spaces that need to be skipped (according to isspace)
 int	skip_whitespace(const char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
