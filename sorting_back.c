@@ -127,42 +127,14 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 	return (best_index);
 }
 
-void	ft_clean_moves(int *cost, t_moves *moves)
-{
-	int	rot_case;
-
-	rot_case = ft_index_of_min(cost, 4);
-	if (rot_case != 0)
-	{
-		moves->rr = 0;
-		if (rot_case >= 2)
-			moves->ra = 0;
-		if (rot_case <= 2)
-			moves->rrr = 0;
-		if (rot_case != 2)
-			moves->rb = 0;
-		else
-			moves->rrb = 0;
-		if (rot_case == 1)
-			moves->rra = 0;
-	}
-	else
-	{
-		moves->rra = 0;
-		moves->rrb = 0;
-		moves->rrr = 0;
-	}
-}
 
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
 {
-	int	pushobj;
 	int	cost[4];
 
 	ft_null_moves(moves);
 	ft_memset(moves, 0, sizeof(&moves));
 	index = 0;
-	pushobj = 0;
 	if (targets->list[index] == -1)
 	{
 		ft_printf("invalid target for i = %d\n", index);
@@ -176,18 +148,15 @@ int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
 	cost[1] = moves->ra + moves->rrb;
 	cost[2] = moves->rra + moves->rb;
 	cost[3] = moves->rra + moves->rrb - min(moves->rra, moves->rrb);
-	ft_clean_moves(cost, moves);
+	ft_clean_moves(ft_index_of_min(cost, 4), moves);
 	return (ft_countmoves(moves));
 }
 
 int	ft_calcmoves_tob(int index, t_stack *targets, int len_b, t_moves *moves)
 {
-	int	pushobj;
-
 	ft_null_moves(moves);
 	ft_memset(moves, 0, sizeof(&moves));
 	index = 0;
-	pushobj = 0;
 	if (index <= targets->len / 2)
 		moves->ra = index;
 	else

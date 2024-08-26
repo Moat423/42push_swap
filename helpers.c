@@ -41,6 +41,7 @@ int	ft_index_of_max(int *list, int len)
 	}
 	return (i);
 }
+
 int	ft_index_of_min(int *list, int len)
 {
 	int	i;

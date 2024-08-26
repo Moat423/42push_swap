@@ -112,14 +112,16 @@ int			*ft_array_atoi(const int listlen, char *const *charlist);
 
 //sorting.c
 int	sorting_frame(t_stack *stack_a);
-void	sort_3_a(t_dlist **moves, t_stack *stack);
-void	sort_2_a(t_dlist **moves, t_stack *stack);
 void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
 int	ft_rot_or_revrot(int *stack, int len, int nb);
-int	ft_sorted_descending(int *stack, int len);
-int	ft_sorted_ascending(int *stack, int len);
 void	ft_splitpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b);
 int	ft_pushsort_to_b(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t_dlist **new_path);
+
+//helpers_sorted.c
+void	sort_3_a(t_dlist **moves, t_stack *stack);
+void	sort_2_a(t_dlist **moves, t_stack *stack);
+int	ft_sorted_descending(int *stack, int len);
+int	ft_sorted_ascending(int *stack, int len);
 
 //sorting_back.c
 int	ft_rot_or_revrot(int *stack, int len, int nb);
@@ -169,4 +171,7 @@ void	ft_make_rrr(t_moves *moves);
 void	ft_make_ss(t_moves *moves);
 void	ft_make_rr(t_moves *moves);
 void	ft_make_double_op(t_moves *moves);
+
+//moves2.c
+void	ft_clean_moves(int rot_case, t_moves *moves);
 #endif // PUSH_SWAP_H

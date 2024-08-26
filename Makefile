@@ -28,7 +28,8 @@ OBJ_DIR := obj
 
 SRCS := main.c newlib.c ft_strtoimax.c ft_sort_int_tab.c operations.c sorting.c\
 		operations2.c op_push.c helpers.c double_linked_list.c sorting_back.c \
-		helpers_print.c targets.c moves.c dlist_helpers.c
+		helpers_print.c targets.c moves.c dlist_helpers.c helpers_sorted.c \
+		moves2.c
 
 OBJS := $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
