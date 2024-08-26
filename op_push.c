@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:58:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:54:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:26:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-//does swap on stack_a and adds sa into operation tree
+// does swap on stack_a and adds sa into operation tree
 void	sa(t_dlist **node, t_stack *stack)
 {
 	swap(stack);

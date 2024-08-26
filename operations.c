@@ -3,7 +3,8 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student->42berlin->       +#+  +:+       +#+        */
+/*   By: lmeubrin <lmeubrin@student->42berlin->       +#+  +:+      
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:07:53 by lmeubrin          #+#    #+#             */
 /*   Updated: 2024/08/07 13:10:43 by lmeubrin         ###   ########.fr       */
@@ -12,8 +13,8 @@
 
 #include "push_swap.h"
 
-//Swap the first 2 elements at the top of stack a.
-//Do nothing if there is only one or no elements.
+// Swap the first 2 elements at the top of stack a.
+// Do nothing if there is only one or no elements.
 void	swap(t_stack *stack)
 {
 	int	buffer;
@@ -26,7 +27,7 @@ void	swap(t_stack *stack)
 	return ;
 }
 
-//Shift up all elements of stack a by 1.
+// Shift up all elements of stack a by 1.
 // The first element becomes the last one.
 void	rotate(t_stack *stack)
 {
