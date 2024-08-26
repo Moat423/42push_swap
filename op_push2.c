@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:48:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:48:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:45:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	pa(t_dlist **node,  t_stack *stack_a, t_stack *stack_b)
 {
 	push_to_2(stack_b, stack_a);
 	ft_createaddback(node, "pa");
-	/* ft_dlstadd_back(node, ft_dlstnew("pa")); */
 }
 
 void	pb(t_dlist **node, t_stack *stack_a, t_stack *stack_b)

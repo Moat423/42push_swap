@@ -6,13 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:11:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:47:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:45:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "newlib.h"
-#include <stdlib.h>
-#include <stdio.h>
 #include "push_swap.h"
 
 //free an array of string (future: elemnbr isn't neccessary because NULL-term)
@@ -51,90 +49,3 @@ char	*ft_newstrjoin(char *str1, char *str2)
 	ft_strlcpy(res + len1, str2, len2 + 1);
 	return (res);
 }
-
-/* #include <assert.h> */
-/* #include <string.h> */
-/* // Test ft_newstrjoin */
-/* void test_ft_newstrjoin(void) */
-/* { */
-/*     char *result; */
-/**/
-/*     // Test case 1: Basic joining of two strings */
-/*     result = ft_newstrjoin("Hello, ", "World!"); */
-/*     assert(strcmp(result, "Hello, World!") == 0); */
-/*     free(result); */
-/*     printf("Test case 1 passed\n"); */
-/**/
-/*     // Test case 2: Joining with an empty string */
-/*     result = ft_newstrjoin("Hello", ""); */
-/*     assert(strcmp(result, "Hello") == 0); */
-/*     free(result); */
-/*     printf("Test case 2 passed\n"); */
-/**/
-/*     // Test case 3: Joining an empty string with a non-empty string */
-/*     result = ft_newstrjoin("", "World"); */
-/*     assert(strcmp(result, "World") == 0); */
-/*     free(result); */
-/*     printf("Test case 3 passed\n"); */
-/**/
-/*     // Test case 4: Joining two empty strings */
-/*     result = ft_newstrjoin("", ""); */
-/*     assert(strcmp(result, "") == 0); */
-/*     free(result); */
-/*     printf("Test case 4 passed\n"); */
-/**/
-/*     // Test case 5: Joining strings with special characters */
-/*     result = ft_newstrjoin("Hello\n", "World\t!"); */
-/*     assert(strcmp(result, "Hello\nWorld\t!") == 0); */
-/*     free(result); */
-/*     printf("Test case 5 passed\n"); */
-/**/
-/*     // Test case 7: NULL handling (NULL for NULL */
-/*     result = ft_newstrjoin(NULL, "World"); */
-/*     assert(result == NULL); */
-/*     printf("Test case 7 passed\n"); */
-/**/
-/*     result = ft_newstrjoin("Hello", NULL); */
-/*     assert(result == NULL); */
-/*     printf("Test case 8 passed\n"); */
-/**/
-/*     printf("All test cases passed!\n"); */
-/* } */
-/**/
-/* int main(void) */
-/* { */
-/*     test_ft_newstrjoin(); */
-/*     return 0; */
-/* } */
-/* // test for free_str_array */
-/* void	test_free_str_array(void) */
-/* { */
-/* 	char	**charray; */
-/* 	size_t	size; */
-/* 	size_t	i; */
-/**/
-/* 	size = 5; */
-/* 	charray = (char **) malloc((size + 1) * sizeof(char *)); */
-/* 	if (charray == NULL) */
-/* 	{ */
-/* 		printf("Memory allocation of charray failed"); */
-/* 		return (1); */
-/* 	} */
-/* 	i = 0; */
-/* 	while (i < size) */
-/* 	{ */
-/* 		charray[i] = ft_strdup("Hello"); */
-/* 		i++; */
-/* 	} */
-/* 	charray[size] = NULL; */
-/* 	i = 0; */
-/* 	printf("original strings:\n"); */
-/* 	while (i < size) */
-/* 	{ */
-/* 		printf("i: %lu in array: %s\n", i, charray[i]); */
-/* 		i++; */
-/* 	} */
-/* 	free_str_array(charray, size); */
-/* 	charray = NULL; */
-/* 	return (0); */
-/* } */
