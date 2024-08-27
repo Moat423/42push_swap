@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:09:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 19:18:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:50:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	*get_position(const int listlen, int *list_in)
 }
 
 //assigns indexes to all list items
-void	ft_assign_index_pos(const int len, int *list_in, int *slist, int *plist)
+void	ft_assign_index_pos(const int len, int *lst_in, int *slist, int *plist)
 {
 	int	i;
 	int	j;
@@ -45,7 +45,7 @@ void	ft_assign_index_pos(const int len, int *list_in, int *slist, int *plist)
 	while (i < len)
 	{
 		j = 0;
-		while (j < len && list_in[i] != slist[j])
+		while (j < len && lst_in[i] != slist[j])
 			j++;
 		plist[i] = j;
 		i++;
