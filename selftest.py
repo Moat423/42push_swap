@@ -2,11 +2,11 @@ import subprocess
 import random
 
 def generate_random_numbers(count):
-    return ' '.join(map(str, random.sample(range(1, 1000000), count)))
+    return ' '.join(map(str, random.sample(range(-1000000, 1000000), count)))
 
 def run_command(arg):
     push_swap = subprocess.run(f"./push_swap {arg}", shell=True, capture_output=True, text=True)
-    checker = subprocess.run(f"echo '{push_swap.stdout}' | ./checker_linux {arg}", shell=True, capture_output=True, text=True)
+    checker = subprocess.run(f"./checker_linux {arg}", input=push_swap.stdout, shell=True, capture_output=True, text=True)
     line_count = push_swap.stdout.count('\n')
     return checker.stdout.strip(), line_count
 
