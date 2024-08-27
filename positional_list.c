@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:09:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:09:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:18:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 // index it should have if the list was sorted
 int	*get_position(const int listlen, int *list_in)
 {
-	int				*pos_list;
-	int				*sorted_list;
+	int	*pos_list;
+	int	*sorted_list;
 
 	pos_list = malloc (listlen * sizeof(int));
 	if (!pos_list)
@@ -38,8 +38,8 @@ int	*get_position(const int listlen, int *list_in)
 //assigns indexes to all list items
 void	ft_assign_index_pos(const int len, int *list_in, int *slist, int *plist)
 {
-	int				i;
-	int				j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < len)

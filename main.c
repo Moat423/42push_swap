@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:12:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:44:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ int	main(int argc, char *argv[])
 	{
 		charlist = ft_split_or_1(&stack_a.len, argv);
 		list_a = ft_array_atoi(stack_a.len, charlist);
+		free_str_array((char **) charlist, stack_a.len);
 	}
 	else
 		list_a = ft_array_atoi(stack_a.len, &argv[1]);
-	if (ft_errorcheck_array(list_a, stack_a.len, &stack_a) > 0)
+	if (ft_errorcheck_array(list_a, stack_a.len) > 0)
+	{
+		free(list_a);
 		return (1);
+	}
 	stack_a.list = get_position(stack_a.len, list_a);
 	free(list_a);
 	sorting_frame(&stack_a);
@@ -39,15 +43,12 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-int	ft_errorcheck_array(int *list_a, int len, t_stack *stack_a)
+int	ft_errorcheck_array(int *list_a, int len)
 {
 	if (!list_a || ft_find_dup(list_a, len))
 		return (write(2, "Error\n", 6));
 	if (len <= 1)
-	{
-		free(stack_a->list);
-		exit (0);
-	}
+		return (1);
 	else
 		return (0);
 }
@@ -92,6 +93,5 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 		stack_a[i] = ft_strtoimax(charlist[i], &errorptr, 10);
 		i++;
 	}
-	free_str_array((char **) charlist, listlen);
 	return (stack_a);
 }

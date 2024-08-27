@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:08:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 14:08:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:59:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_sorted_descending(int *stack, int len)
 	i = 0;
 	while (i + 1 < len)
 	{
-		if (stack[i] + 1 == stack[i + 1])
+		if (stack[i] < stack[i + 1])
 			return (0);
 		i++;
 	}
@@ -54,27 +54,20 @@ void	sort_2_a(t_dlist **moves, t_stack *stack)
 //sort 3 numbers in ascending order
 void	sort_3_a(t_dlist **moves, t_stack *stack)
 {
-	if (stack->list[0] > stack->list[1])
+	if (ft_sorted_ascending(stack->list, stack->len))
+		return ;
+	if (stack->list[0] < stack->list[1])
 	{
-		if (stack->list[0] > stack->list[1] && stack->list[1] > stack->list[2])
-		{
-			if (stack->list[1] > stack->list[2])
-			{
-				sa(moves, stack);
-				rra(moves, stack);
-			}
-			else
-				ra(moves, stack);
-		}
-	}
-	else if (stack->list[1] > stack->list[2])
-	{
-		if (stack->list[0] > stack->list[2])
-			rra(moves, stack);
-		else
-		{
+		rra(moves, stack);
+		if (stack->list[0] > stack->list[1])
 			sa(moves, stack);
-			ra(moves, stack);
-		}
 	}
+	else if (stack->list[0] > stack->list[2])
+	{
+		ra(moves, stack);
+		if (stack->list[0] > stack->list[1])
+			sa(moves, stack);
+	}
+	else
+		sa(moves, stack);
 }

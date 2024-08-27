@@ -6,11 +6,26 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:14:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 11:56:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:02:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+//finds index of nb in list, -1 if nb not in list
+int	ft_index_of_nb(int nb, int *list, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (list[i] == nb)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 int	ft_index_of_max(int *list, int len)
 {

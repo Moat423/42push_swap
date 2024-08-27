@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 15:11:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:36:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	ft_index_of_min(int *list, int len);
 int	ft_index_of_max(int *list, int len);
 int	ft_max_of_lst(int *list, int len);
 int	ft_min_of_lst(int *list, int len);
+int	ft_index_of_nb(int nb, int *list, int len);
 
 void	swap(t_stack *stack);
 void	rotate(t_stack *stack);
@@ -105,7 +106,6 @@ void	do_ss(t_dlist **node,  t_stack *stack_a, t_stack *stack_b);
 
 //main.c
 void	ft_assign_index_pos(const int listlen, int *list_in, int *sorted_list, int *pos_list);
-int	ft_errorcheck_array(int *list_a, int len, t_stack *stack_a);
 char *const	*ft_split_or_1(int *listlen, char *argv[]);
 int			ft_find_dup(int *list, int listlen);
 void		ft_printf_int_array(const int *array, const int len);
@@ -113,6 +113,7 @@ void		ft_printf_char_array(char *const *array, const int len);
 int			*get_position(const int listlen, int *list_in);
 int			*ft_insertion_sort_int_list(const int *list, const int listlen);
 int			*ft_array_atoi(const int listlen, char *const *charlist);
+int	ft_errorcheck_array(int *list_a, int len);
 
 //sorting.c
 int	sorting_frame(t_stack *stack_a);
@@ -138,6 +139,8 @@ int	ft_find_optimal_push(t_stack *stack_a, t_stack *stack_b, t_stack *targets, t
 int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves);
 int	ft_calcmoves_tob(int index, t_stack *targets, int len_a, t_moves *moves);
 void	ft_handle_operations(t_dlist **moves, t_stack *a, t_stack *b, int splt);
+int	ft_find_optimal_move(t_stack *targ, int len_a, t_moves *moves_best);
+void	ft_rotate_nb_to_top(int nb, t_stack *stack_a, t_dlist **output);
 
 // targets.c
 t_stack ft_find_targets(t_stack *stack_a, t_stack *stack_b);

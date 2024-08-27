@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:51:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 12:16:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:02:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,19 @@ int	sorting_frame(t_stack *stack_a)
 	if (!stack_b.list)
 		return (1);
 	ft_splitpoint(&output, stack_a, &stack_b);
-	/* ft_printf("A-----------before storing back\n"); */
-	/* ft_printf_int_array(stack_a->list, stack_a->len); */
-	/* ft_printf("B-----------before storing back\n"); */
-	/* ft_printf_int_array(stack_b.list, stack_b.len); */
 	if (stack_a->len == 2)
 		sa(&output, stack_a);
-	if (stack_a->len == 3)
+	if (stack_a->len == 3 && !ft_sorted_ascending(stack_a->list, stack_a->len))
 		sort_3_a(&output, stack_a);
+	/* ft_printf("A-----------before sorting back\n"); */
+	/* ft_printf_int_array(stack_a->list, stack_a->len); */
+	/* ft_printf("B-----------before sorting back\n"); */
+	/* ft_printf_int_array(stack_b.list, stack_b.len); */
 	sorting_back(stack_a, &stack_b, &output);
+	/* ft_printf("A-----------after storing back\n"); */
+	/* ft_printf_int_array(stack_a->list, stack_a->len); */
+	/* ft_printf("B-----------after storing back\n"); */
+	/* ft_printf_int_array(stack_b.list, stack_b.len); */
 	if (stack_b.list)
 		free(stack_b.list);
 	/* ft_printf("output after sorting back:\n"); */
