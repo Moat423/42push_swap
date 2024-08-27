@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 19:44:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:57:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_errorcheck_array(int *list_a, int len)
 }
 
 //modiefies listlen in main, splits numstrings
-char *const	*ft_split_or_1(int *listlen, char *argv[])
+char	**ft_split_or_1(int *listlen, char *argv[])
 {
 	char	**charlist;
 	int		len;

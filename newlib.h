@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:39:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 17:40:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:53:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@ int		ft_atoi_base_e(const char *nptr, char ***endptr, int base, int sign);
 int		determine_sign(const char *nptr);
 char	*ft_newstrjoin(char *str1, char *str2);
 int		skip_whitespace(const char *str);
+int		*ft_insertion_sort_int_list(const int *list, const int listlen);
 #endif // !NEWLIB_H

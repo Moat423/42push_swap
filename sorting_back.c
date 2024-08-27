@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:59:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 14:14:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:57:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 	}
 	min = ft_min_of_lst(stack_a->list, stack_a->len);
 	ft_rotate_nb_to_top(min, stack_a, output);
-	/* index_min = ft_index_of_min(stack_a->list, stack_a->len); */
-	/* while (index_min != 0 && index_min <= stack_a->len / 2) */
-	/* { */
-	/* 	ra(output, stack_a); */
-	/* 	index_min = ft_index_of_min(stack_a->list, stack_a->len); */
-	/* } */
-	/* while (ft_index_of_min(stack_a->list, stack_a->len) > stack_a->len / 2) */
-	/* 	rra(output, stack_a); */
 	return (1);
 }
 
@@ -62,27 +54,17 @@ void	ft_rotate_nb_to_top(int nb, t_stack *stack_a, t_dlist **output)
 
 //decide for element to push to A
 // -1 means error
-int	ft_find_optimal_push(t_stack *a, t_stack *b, t_stack *targ, t_dlist **path)
+int	ft_find_optimal_push(t_stack *a, t_stack *b, t_stack *t, t_dlist **p)
 {
 	t_moves	moves_best;
 	int		best_index;
 
-	*targ = ft_find_targets(a, b);
-	if (!(targ->list))
+	*t = ft_find_targets(a, b);
+	if (!(t->list))
 		return (-1);
-	/* ft_printf("\nTARGETS\n"); */
-	/* ft_printf_int_array(targ->list, targ->len); */
-	/* ft_printf("A>>>>>>>>>>>>>before move exec\n"); */
-	/* ft_printf_int_array(a->list, a->len); */
-	/* ft_printf("B>>>>>>>>>>>>>before move exec\n"); */
-	/* ft_printf_int_array(b->list, b->len); */
-	best_index = ft_find_optimal_move(targ, a->len, &moves_best);
-	ft_exec_moves(a, b, &moves_best, path);
-	pa(path, a, b);
-	/* ft_printf("A>>>>>>>>>>>>>after move exec\n"); */
-	/* ft_printf_int_array(a->list, a->len); */
-	/* ft_printf("B>>>>>>>>>>>>>after move exec\n"); */
-	/* ft_printf_int_array(b->list, b->len); */
+	best_index = ft_find_optimal_move(t, a->len, &moves_best);
+	ft_exec_moves(a, b, &moves_best, p);
+	pa(p, a, b);
 	return (best_index);
 }
 

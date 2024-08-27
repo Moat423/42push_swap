@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:51:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 12:06:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:28:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_make_rrr(t_moves *moves)
 		}
 	}
 }
+
 // combine sa and sb into ss
 void	ft_make_ss(t_moves *moves)
 {
@@ -50,6 +51,7 @@ void	ft_make_ss(t_moves *moves)
 		}
 	}
 }
+
 // Combine ra and rb into rr
 void	ft_make_rr(t_moves *moves)
 {
