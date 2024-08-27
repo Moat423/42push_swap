@@ -6,7 +6,7 @@
 #    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2024/08/26 17:39:34 by lmeubrin         ###   ########.fr        #
+#    Updated: 2024/08/27 17:04:05 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ OBJ_DIR := obj
 SRCS := main.c newlib.c ft_strtoimax.c ft_sort_int_tab.c operations.c sorting.c\
 		operations2.c op_push.c helpers.c double_linked_list.c sorting_back.c \
 		helpers_print.c targets.c moves.c dlist_helpers.c helpers_sorted.c \
-		moves2.c helpers2.c positional_list.c op_push2.c ft_skip_whitespace.c
+		moves2.c helpers2.c positional_list.c op_push2.c ft_skip_whitespace.c \
+		double_linked_list2.c
 
 OBJS := $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
