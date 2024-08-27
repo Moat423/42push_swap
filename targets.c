@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:00:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 16:58:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:39:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ int	ft_calcmoves(int index, t_stack *targets, int len_a, t_moves *moves)
 //simple check 0 if a and b are sorted, 1 if b is sorted, and 2 if none
 int	ft_push_if_sorted(t_stack *stack_a, t_stack *stack_b, t_dlist **path)
 {
-	if (ft_sorted_descending(stack_b->list, stack_b->len))
+	if (ft_sorted_true_descending(stack_b->list, stack_b->len) \
+		&& stack_b->list[0] < stack_a->list[0])
 	{
-		if (ft_sorted_ascending(stack_a->list, stack_a->len))
+		if (ft_sorted_true_ascending(stack_a->list, stack_a->len))
 		{
 			while (stack_b->len > 0)
 				pa(path, stack_a, stack_b);

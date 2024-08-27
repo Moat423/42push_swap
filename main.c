@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:39:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 16:57:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:15:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ int	*ft_array_atoi(const int listlen, char *const *charlist)
 	while (i < listlen)
 	{
 		stack_a[i] = ft_strtoimax(charlist[i], &errorptr, 10);
+		if (*errorptr != '\0')
+		{
+			free(stack_a);
+			return (stack_a = NULL);
+		}
 		i++;
 	}
 	return (stack_a);
