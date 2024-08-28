@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:51:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 17:03:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/28 09:21:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	sorting_frame(t_stack *stack_a)
 	t_dlist	*output;
 
 	output = NULL;
+	stack_b.list = NULL;
 	if (stack_a->len <= 1 || ft_sorted_ascending(stack_a->list, stack_a->len))
 		return (0);
 	stack_b.len = 0;
-	stack_b.list = malloc(stack_a->len * sizeof(int));
+	stack_b.list = calloc(stack_a->len, sizeof(int));
 	if (!stack_b.list)
 		return (1);
 	ft_splitpoint(&output, stack_a, &stack_b);
@@ -38,6 +39,7 @@ int	sorting_frame(t_stack *stack_a)
 	return (0);
 }
 
+// alternatative way to get to b
 void	ft_midpoint(t_dlist **moves, t_stack *stack_a, t_stack *stack_b)
 {
 	int	midpoint;

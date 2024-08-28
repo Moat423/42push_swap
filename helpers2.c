@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:55:28 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/26 14:03:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/28 08:58:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_find_dup(int *list, int listlen)
 		while (j < listlen)
 		{
 			if (list[i] == list[j])
-				return (i);
+				return (j);
 			j++;
 		}
 		i++;
