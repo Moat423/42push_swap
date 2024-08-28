@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:49:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 16:56:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:43:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ int		ft_sorted_ascending(int *stack, int len);
 int		ft_sorted_descending(int *stack, int len);
 void	sort_2_a(t_dlist **moves, t_stack *stack);
 void	sort_3_a(t_dlist **moves, t_stack *stack);
+
+//helpers_true_sorted.c
+int		ft_sorted_true_descending(int *stack, int len);
+int		ft_sorted_true_ascending(int *stack, int len);
 
 //helpers2.c
 int		min(int a, int b);
