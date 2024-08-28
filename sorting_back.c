@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:59:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/08/27 16:57:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/08/28 10:55:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	sorting_back(t_stack *stack_a, t_stack *stack_b, t_dlist **output)
 	int		min;
 
 	new_path = NULL;
-	if (!(ft_push_if_sorted(stack_a, stack_b, &new_path)))
+	if (!(ft_push_if_sorted(stack_a, stack_b, output)))
 		return (1);
 	while (stack_b->len > 0)
 	{
