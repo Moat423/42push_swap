@@ -1,0 +1,7 @@
+checker_linux
+*.swp
+a.out
+push_swap
+*.o
+*/*.a
+*/*/*.a
